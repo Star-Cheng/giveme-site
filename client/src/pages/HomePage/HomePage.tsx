@@ -36,7 +36,7 @@ export default function HomePage() {
           <div className="animate-hero mb-5 flex justify-center">
             <img
               src={logoImage}
-              alt="ZeStone Layser Logo"
+              alt="ZeStone Laser Logo"
               className="w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] md:w-[300px] md:h-[300px] object-cover rounded-2xl shadow-lg"
             />
           </div>
@@ -44,7 +44,7 @@ export default function HomePage() {
           <div className="animate-hero delay-100 mb-8">
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-card rounded-full text-xs font-medium text-muted-foreground tracking-wider uppercase border border-border-light">
               <Sparkles className="w-3 h-3 text-brand" />
-              ZeStone Layser · 智石激光
+              ZeStone Laser · 智石激光
             </span>
           </div>
 

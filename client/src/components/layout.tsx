@@ -67,7 +67,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 智石激光
               </span>
               <span className="block text-[10px] sm:text-xs font-sans font-normal tracking-widest text-muted-foreground uppercase">
-                ZeStone Layser
+                ZeStone Laser
               </span>
             </span>
           </Link>
@@ -133,7 +133,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             <div className="lg:col-span-2">
               <h3 className="font-serif text-xl font-medium mb-3">智石激光</h3>
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">ZeStone Layser</p>
+              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">ZeStone Laser</p>
               <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-md">
                 以 AI 技术打造高精度智能激光器。开放、创新、自由、精益求精——不做工具人，做领域的开创者。
               </p>
@@ -180,7 +180,7 @@ export function Layout({ children }: { children: ReactNode }) {
 
           <div className="mt-12 pt-8 border-t border-border-light flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-xs text-muted-foreground font-light">
-              © {new Date().getFullYear()} 智石激光 ZeStone Layser. 保留所有权利。
+              © {new Date().getFullYear()} 智石激光 ZeStone Laser. 保留所有权利。
             </p>
             <p className="text-xs text-muted-foreground font-light">
               光子与算法，同频于产线

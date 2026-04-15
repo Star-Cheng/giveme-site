@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Gift, MessageCircle, Rocket, Upload } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
@@ -19,7 +19,6 @@ export default function CareersPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const formRef = useRef<HTMLFormElement | null>(null);
 
   const resolveSubmitTarget = () => {
     if (apiBaseUrl) {
@@ -40,15 +39,9 @@ export default function CareersPage() {
     setResumeFile(file);
   };
 
-  const handleResumeSubmit = async (e?: FormEvent<HTMLFormElement>) => {
-    e?.preventDefault();
-    e?.stopPropagation();
+  const handleResumeSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     setSubmitError("");
-
-    if (formRef.current && !formRef.current.reportValidity()) {
-      return;
-    }
-
     setIsSubmitting(true);
 
     if (!resumeFile) {
@@ -178,7 +171,6 @@ export default function CareersPage() {
             </p>
 
             <form
-              ref={formRef}
               onSubmit={handleResumeSubmit}
               className="space-y-5"
             >
@@ -275,10 +267,7 @@ export default function CareersPage() {
               </div>
 
               <button
-                type="button"
-                onClick={() => {
-                  void handleResumeSubmit();
-                }}
+                type="submit"
                 disabled={isSubmitting || isSubmitted}
                 className={`w-full py-4 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
                   isSubmitted ? "bg-success text-white" : "bg-foreground text-background hover:bg-brand"
