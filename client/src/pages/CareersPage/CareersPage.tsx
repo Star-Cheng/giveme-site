@@ -29,6 +29,14 @@ export default function CareersPage() {
     return "/api/resume-submissions";
   };
 
+  const buildNormalizedFilename = (file: File) => {
+    const rawName = file.name || "";
+    const dotIndex = rawName.lastIndexOf(".");
+    const ext = dotIndex >= 0 ? rawName.slice(dotIndex).toLowerCase() : "";
+    const allowedExt = ext === ".pdf" || ext === ".doc" || ext === ".docx" ? ext : ".pdf";
+    return `resume-${Date.now()}${allowedExt}`;
+  };
+
   const handleTextChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
@@ -55,7 +63,14 @@ export default function CareersPage() {
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append("resume", resumeFile);
+    const normalizedFilename = buildNormalizedFilename(resumeFile);
+    body.append(isGithubPages ? "attachment" : "resume", resumeFile, normalizedFilename);
+    if (isGithubPages) {
+      body.append("_subject", `【简历投递】${formData.position} - ${formData.name}`);
+      body.append("_cc", "fccgccn@gmail.com");
+      body.append("_captcha", "false");
+      body.append("_template", "table");
+    }
 
     try {
       const response = await fetch(submitTarget, {
@@ -160,6 +175,7 @@ export default function CareersPage() {
             </p>
 
             <form onSubmit={handleResumeSubmit} className="space-y-5">
+<<<<<<< HEAD
               {isGithubPages ? (
                 <>
                   <input
@@ -172,6 +188,8 @@ export default function CareersPage() {
                   <input type="hidden" name="_template" value="table" />
                 </>
               ) : null}
+=======
+>>>>>>> 5d893cf (```)
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="resume-name" className="block text-sm font-medium mb-2">
@@ -225,7 +243,7 @@ export default function CareersPage() {
                 </label>
                 <input
                   id="resume-file"
-                  name={isGithubPages ? "attachment" : "resume"}
+                  name="resume"
                   type="file"
                   onChange={handleFileChange}
                   accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
