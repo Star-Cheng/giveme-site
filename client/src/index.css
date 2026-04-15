@@ -2,7 +2,7 @@
 
 @theme inline {
   /* 语义化颜色 */
-  --color-background: hsl(242 28% 6%);
+  --color-background: rgb(0 0 0);
   --color-foreground: hsl(220 24% 96%);
   --color-muted-foreground: hsl(224 16% 72%);
   --color-card: hsl(242 24% 10%);

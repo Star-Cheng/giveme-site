@@ -53,11 +53,21 @@ export function Layout({ children }: { children: ReactNode }) {
         <nav className="container-custom flex items-center justify-between gap-4">
           <Link
             to="/"
-            className="font-serif text-lg sm:text-xl font-medium tracking-wide hover:text-brand transition-colors shrink-0"
+            className="group inline-flex items-center gap-3 hover:opacity-90 transition-opacity shrink-0"
+            aria-label="智石激光首页"
           >
-            <span className="block leading-tight">智石激光</span>
-            <span className="block text-[10px] sm:text-xs font-sans font-normal tracking-widest text-muted-foreground uppercase">
-              ZeStone Laser
+            <img
+              src="/favicon.svg"
+              alt="智石激光 Logo"
+              className="w-9 h-9 sm:w-10 sm:h-10 object-contain"
+            />
+            <span className="leading-tight">
+              <span className="block font-serif text-lg sm:text-xl font-medium tracking-wide text-foreground">
+                智石激光
+              </span>
+              <span className="block text-[10px] sm:text-xs font-sans font-normal tracking-widest text-muted-foreground uppercase">
+                ZeStone Laser
+              </span>
             </span>
           </Link>
 
