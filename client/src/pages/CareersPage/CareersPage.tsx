@@ -7,6 +7,7 @@ export default function CareersPage() {
   useScrollReveal();
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
   const isGithubPages = window.location.hostname.endsWith("github.io");
+  const shouldUseFormSubmit = !apiBaseUrl && isGithubPages;
   const formSubmitAjaxAction = "https://formsubmit.co/ajax/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
@@ -23,7 +24,7 @@ export default function CareersPage() {
     if (apiBaseUrl) {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
-    if (isGithubPages) {
+    if (shouldUseFormSubmit) {
       return formSubmitAjaxAction;
     }
     return "/api/resume-submissions";
@@ -55,7 +56,16 @@ export default function CareersPage() {
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append("resume", resumeFile);
+    body.append(shouldUseFormSubmit ? "attachment" : "resume", resumeFile);
+    if (shouldUseFormSubmit) {
+      body.append(
+        "_subject",
+        `【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`,
+      );
+      body.append("_cc", "fccgccn@gmail.com");
+      body.append("_captcha", "false");
+      body.append("_template", "table");
+    }
 
     try {
       const response = await fetch(submitTarget, {
@@ -160,7 +170,7 @@ export default function CareersPage() {
             </p>
 
             <form onSubmit={handleResumeSubmit} className="space-y-5">
-              {isGithubPages ? (
+              {shouldUseFormSubmit ? (
                 <>
                   <input
                     type="hidden"
@@ -225,7 +235,7 @@ export default function CareersPage() {
                 </label>
                 <input
                   id="resume-file"
-                  name={isGithubPages ? "attachment" : "resume"}
+                  name={shouldUseFormSubmit ? "attachment" : "resume"}
                   type="file"
                   onChange={handleFileChange}
                   accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
