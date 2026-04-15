@@ -2,7 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import { defineConfig } from "vite";
+import { defineConfig, loadEnv } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -14,25 +14,28 @@ function normalizeBase(raw: string | undefined): string {
   return withLeading.endsWith("/") ? withLeading : `${withLeading}/`;
 }
 
-// 本地开发默认 `/`；CI 里设置 VITE_BASE_PATH=/仓库名/（项目页）或 `/`（用户页 username.github.io）
-const base = normalizeBase(process.env.VITE_BASE_PATH);
+export default defineConfig(({ mode }) => {
+  // 生产构建读取 .env.production（如 VITE_BASE_PATH=/giveme-site/）；本地 dev 默认仍为 /
+  const env = loadEnv(mode, __dirname, "");
+  const base = normalizeBase(process.env.VITE_BASE_PATH || env.VITE_BASE_PATH);
 
-export default defineConfig({
-  base,
-  root: path.resolve(__dirname, "client"),
-  plugins: [tailwindcss(), react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "client/src"),
-      "@shared": path.resolve(__dirname, "shared"),
+  return {
+    base,
+    root: path.resolve(__dirname, "client"),
+    plugins: [tailwindcss(), react()],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "client/src"),
+        "@shared": path.resolve(__dirname, "shared"),
+      },
     },
-  },
-  server: {
-    port: 5173,
-    strictPort: false,
-  },
-  build: {
-    outDir: path.resolve(__dirname, "dist"),
-    emptyOutDir: true,
-  },
+    server: {
+      port: 5173,
+      strictPort: false,
+    },
+    build: {
+      outDir: path.resolve(__dirname, "dist"),
+      emptyOutDir: true,
+    },
+  };
 });
