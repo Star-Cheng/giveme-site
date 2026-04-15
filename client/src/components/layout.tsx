@@ -17,7 +17,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const logoSrc = `${import.meta.env.BASE_URL}favicon.svg`;
+  const logoSrc = `${import.meta.env.BASE_URL}logo.svg`;
 
   useEffect(() => {
     const handleScroll = () => {
