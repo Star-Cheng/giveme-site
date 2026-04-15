@@ -8,7 +8,7 @@ export default function CareersPage() {
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
   const isGithubPages = window.location.hostname.endsWith("github.io");
   const shouldUseFormSubmit = !apiBaseUrl && isGithubPages;
-  const formSubmitAjaxAction = "https://formsubmit.co/ajax/1335929010@qq.com";
+  const formSubmitAction = "https://formsubmit.co/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,7 +25,7 @@ export default function CareersPage() {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
     if (shouldUseFormSubmit) {
-      return formSubmitAjaxAction;
+      return formSubmitAction;
     }
     return "/api/resume-submissions";
   };
@@ -39,7 +39,7 @@ export default function CareersPage() {
     setResumeFile(file);
   };
 
-  const handleResumeSubmit = async (e: FormEvent) => {
+  const handleResumeSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitError("");
     setIsSubmitting(true);
@@ -49,6 +49,12 @@ export default function CareersPage() {
       setIsSubmitting(false);
       return;
     }
+
+    if (shouldUseFormSubmit) {
+      e.currentTarget.submit();
+      return;
+    }
+
     const submitTarget = resolveSubmitTarget();
 
     const body = new FormData();
@@ -56,16 +62,7 @@ export default function CareersPage() {
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append(shouldUseFormSubmit ? "attachment" : "resume", resumeFile);
-    if (shouldUseFormSubmit) {
-      body.append(
-        "_subject",
-        `【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`,
-      );
-      body.append("_cc", "fccgccn@gmail.com");
-      body.append("_captcha", "false");
-      body.append("_template", "table");
-    }
+    body.append("resume", resumeFile);
 
     try {
       const response = await fetch(submitTarget, {
@@ -169,13 +166,24 @@ export default function CareersPage() {
               <span className="text-foreground"> fccgccn@gmail.com</span>。
             </p>
 
-            <form onSubmit={handleResumeSubmit} className="space-y-5">
+            <form
+              onSubmit={handleResumeSubmit}
+              action={shouldUseFormSubmit ? formSubmitAction : undefined}
+              method={shouldUseFormSubmit ? "POST" : undefined}
+              encType={shouldUseFormSubmit ? "multipart/form-data" : undefined}
+              className="space-y-5"
+            >
               {shouldUseFormSubmit ? (
                 <>
                   <input
                     type="hidden"
                     name="_subject"
                     value={`【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`}
+                  />
+                  <input
+                    type="hidden"
+                    name="_next"
+                    value={`${window.location.origin}${window.location.pathname}?resume=submitted`}
                   />
                   <input type="hidden" name="_cc" value="fccgccn@gmail.com" />
                   <input type="hidden" name="_captcha" value="false" />
