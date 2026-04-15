@@ -12,7 +12,7 @@ type ContactInquiryPayload = {
   message: string;
 };
 
-const FALLBACK_RECEIVER_EMAIL = "1335929010@qq.com";
+const FALLBACK_RECEIVER_EMAILS = ["1335929010@qq.com", "fccgccn@gmail.com"];
 
 function getMailerTransport() {
   const host = process.env.SMTP_HOST || "smtp.qq.com";
@@ -72,7 +72,10 @@ contactRouter.post("/", async (req: Request, res: Response) => {
     return;
   }
 
-  const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || FALLBACK_RECEIVER_EMAIL;
+  const receiverEmails = (process.env.CONTACT_RECEIVER_EMAIL || FALLBACK_RECEIVER_EMAILS.join(","))
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
   const senderEmail = process.env.CONTACT_SENDER_EMAIL || process.env.SMTP_USER;
 
   try {
@@ -80,7 +83,7 @@ contactRouter.post("/", async (req: Request, res: Response) => {
 
     await transporter.sendMail({
       from: senderEmail,
-      to: receiverEmail,
+      to: receiverEmails,
       replyTo: payload.email,
       subject: `【商务咨询】${payload.company} - ${payload.name}`,
       text: [

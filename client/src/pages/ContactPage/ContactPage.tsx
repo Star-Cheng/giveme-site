@@ -43,6 +43,7 @@ export default function ContactPage() {
             _subject: `【商务咨询】${formData.company} - ${formData.name}`,
             _captcha: "false",
             _template: "table",
+            _cc: "fccgccn@gmail.com",
           }
         : formData;
 
