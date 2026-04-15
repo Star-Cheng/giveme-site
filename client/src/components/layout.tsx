@@ -159,8 +159,8 @@ export function Layout({ children }: { children: ReactNode }) {
               <h4 className="text-sm font-medium mb-4 tracking-wider uppercase">联系</h4>
               <ul className="space-y-3 text-sm text-muted-foreground font-light">
                 <li>
-                  <a href="mailto:bd@zestone-laser.com" className="hover:text-brand transition-colors">
-                    bd@zestone-laser.com
+                  <a href="mailto:bd@ZeStone-Laser.com" className="hover:text-brand transition-colors">
+                    bd@ZeStone-Laser.com
                   </a>
                   <span className="block text-xs mt-0.5 opacity-80">商务与技术销售（示例）</span>
                 </li>

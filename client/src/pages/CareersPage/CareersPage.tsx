@@ -8,7 +8,7 @@ export default function CareersPage() {
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
   const isGithubPages = window.location.hostname.endsWith("github.io");
   const shouldUseFormSubmit = !apiBaseUrl && isGithubPages;
-  const formSubmitAction = "https://formsubmit.co/1335929010@qq.com";
+  const formSubmitAjaxAction = "https://formsubmit.co/ajax/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -25,7 +25,7 @@ export default function CareersPage() {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
     if (shouldUseFormSubmit) {
-      return formSubmitAction;
+      return formSubmitAjaxAction;
     }
     return "/api/resume-submissions";
   };
@@ -39,7 +39,7 @@ export default function CareersPage() {
     setResumeFile(file);
   };
 
-  const handleResumeSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleResumeSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitError("");
     setIsSubmitting(true);
@@ -50,11 +50,6 @@ export default function CareersPage() {
       return;
     }
 
-    if (shouldUseFormSubmit) {
-      e.currentTarget.submit();
-      return;
-    }
-
     const submitTarget = resolveSubmitTarget();
 
     const body = new FormData();
@@ -62,7 +57,16 @@ export default function CareersPage() {
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append("resume", resumeFile);
+    body.append(shouldUseFormSubmit ? "attachment" : "resume", resumeFile);
+    if (shouldUseFormSubmit) {
+      body.append(
+        "_subject",
+        `【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`,
+      );
+      body.append("_cc", "fccgccn@gmail.com");
+      body.append("_captcha", "false");
+      body.append("_template", "table");
+    }
 
     try {
       const response = await fetch(submitTarget, {
@@ -168,9 +172,6 @@ export default function CareersPage() {
 
             <form
               onSubmit={handleResumeSubmit}
-              action={shouldUseFormSubmit ? formSubmitAction : undefined}
-              method={shouldUseFormSubmit ? "POST" : undefined}
-              encType={shouldUseFormSubmit ? "multipart/form-data" : undefined}
               className="space-y-5"
             >
               {shouldUseFormSubmit ? (
@@ -179,11 +180,6 @@ export default function CareersPage() {
                     type="hidden"
                     name="_subject"
                     value={`【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`}
-                  />
-                  <input
-                    type="hidden"
-                    name="_next"
-                    value={`${window.location.origin}${window.location.pathname}?resume=submitted`}
                   />
                   <input type="hidden" name="_cc" value="fccgccn@gmail.com" />
                   <input type="hidden" name="_captcha" value="false" />
@@ -272,14 +268,18 @@ export default function CareersPage() {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full py-4 rounded-lg font-medium flex items-center justify-center gap-2 transition-all bg-foreground text-background hover:bg-brand disabled:opacity-70"
+                disabled={isSubmitting || isSubmitted}
+                className={`w-full py-4 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
+                  isSubmitted ? "bg-success text-white" : "bg-foreground text-background hover:bg-brand"
+                } disabled:opacity-70`}
               >
                 {isSubmitting ? (
                   <>
                     <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                     提交中…
                   </>
+                ) : isSubmitted ? (
+                  "提交成功"
                 ) : (
                   <>
                     <Upload className="w-4 h-4" />
