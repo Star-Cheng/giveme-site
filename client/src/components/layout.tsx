@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -60,16 +60,19 @@ export function Layout({ children }: { children: ReactNode }) {
           <ul className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <li key={link.path}>
-                <Link
+                <NavLink
                   to={link.path}
-                  className={`text-sm font-light tracking-wide link-underline transition-colors ${
-                    location.pathname === link.path
-                      ? "text-brand"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
+                  end={link.path === "/"}
+                  className={({ isActive }) =>
+                    `text-sm font-light tracking-wide link-underline transition-colors ${
+                      isActive
+                        ? "text-brand"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`
+                  }
                 >
                   {link.label}
-                </Link>
+                </NavLink>
               </li>
             ))}
           </ul>
@@ -97,18 +100,19 @@ export function Layout({ children }: { children: ReactNode }) {
       >
         <div className="flex flex-col items-center justify-center h-full gap-8">
           {navLinks.map((link, index) => (
-            <Link
+            <NavLink
               key={link.path}
               to={link.path}
-              className={`font-serif text-3xl font-medium transition-all duration-300 ${
-                location.pathname === link.path
-                  ? "text-brand"
-                  : "text-foreground"
-              } ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`}
+              end={link.path === "/"}
+              className={({ isActive }) =>
+                `font-serif text-3xl font-medium transition-all duration-300 ${
+                  isActive ? "text-brand" : "text-foreground"
+                } ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`
+              }
               style={{ transitionDelay: `${index * 50}ms` }}
             >
               {link.label}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </div>
