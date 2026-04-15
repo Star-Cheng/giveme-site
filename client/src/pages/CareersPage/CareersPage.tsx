@@ -22,7 +22,7 @@ export default function CareersPage() {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
     if (window.location.hostname.endsWith("github.io")) {
-      return "https://formsubmit.co/ajax/1335929010@qq.com";
+      return "";
     }
     return "/api/resume-submissions";
   };
@@ -48,7 +48,12 @@ export default function CareersPage() {
     }
 
     const submitTarget = resolveSubmitTarget();
-    const isFormSubmit = submitTarget.includes("formsubmit.co/ajax/");
+
+    if (!submitTarget) {
+      setSubmitError("当前站点未配置简历投递后端，暂时无法提交附件简历，请联系管理员配置 API。");
+      setIsSubmitting(false);
+      return;
+    }
 
     const body = new FormData();
     body.append("name", formData.name);
@@ -56,17 +61,7 @@ export default function CareersPage() {
     body.append("position", formData.position);
     body.append("message", formData.message);
 
-    if (isFormSubmit) {
-      // FormSubmit 文件字段建议使用 attachment，才能以附件形式投递到邮箱
-      body.append("attachment", resumeFile);
-      body.append("_subject", `【简历投递】${formData.position} - ${formData.name}`);
-      body.append("_cc", "fccgccn@gmail.com");
-      body.append("_captcha", "false");
-      body.append("_template", "table");
-      body.append("_autoresponse", "已收到你的简历投递，我们会尽快联系你。");
-    } else {
-      body.append("resume", resumeFile);
-    }
+    body.append("resume", resumeFile);
 
     try {
       const response = await fetch(submitTarget, {
