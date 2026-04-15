@@ -40,11 +40,11 @@ export default function HomePage() {
           </div>
 
           <h1 className="animate-hero delay-200 font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-tight mb-6 max-w-5xl mx-auto">
-            <span className="block">AI 驱动的下一代</span>
-            <span className="block text-brand italic">高精度智能激光器</span>
+            <span className="block rainbow-text">AI 驱动的下一代</span>
+            <span className="block rainbow-text italic">高精度智能激光器</span>
           </h1>
 
-          <p className="animate-hero delay-300 text-lg md:text-xl text-muted-foreground font-light max-w-2xl mx-auto mb-4 leading-relaxed">
+          <p className="animate-hero delay-300 text-lg md:text-xl rainbow-text-soft font-light max-w-2xl mx-auto mb-4 leading-relaxed">
             不做工具人，做领域的开创者。
           </p>
           <p className="animate-hero delay-300 text-sm md:text-base text-muted-foreground/90 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
