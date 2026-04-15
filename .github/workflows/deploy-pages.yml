@@ -1,0 +1,65 @@
+# 构建静态站点并部署到 GitHub Pages
+# 使用前请在仓库 Settings → Pages → Build and deployment → Source 选择「GitHub Actions」
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "pnpm"
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Set VITE_BASE_PATH
+        id: base
+        shell: bash
+        run: |
+          REPO_NAME="${GITHUB_REPOSITORY#*/}"
+          if [[ "$REPO_NAME" == *.github.io ]]; then
+            echo "用户/组织站点：静态资源前缀为 /"
+            echo "VITE_BASE_PATH=/" >> "$GITHUB_ENV"
+          else
+            echo "项目站点：https://<用户>.github.io/${REPO_NAME}/"
+            echo "VITE_BASE_PATH=/${REPO_NAME}/" >> "$GITHUB_ENV"
+          fi
+
+      - name: Build
+        run: pnpm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
