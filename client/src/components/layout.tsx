@@ -166,7 +166,7 @@ export function Layout({ children }: { children: ReactNode }) {
                 </li>
                 <li>
                   <a href="tel:+864008008800" className="hover:text-brand transition-colors">
-                    +86 185-8386-4108
+                    +86 xxx-xxxx-xxxx
                   </a>
                 </li>
                 <li>

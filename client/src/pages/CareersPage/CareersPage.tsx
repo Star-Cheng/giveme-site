@@ -168,10 +168,7 @@ export default function CareersPage() {
           <div className="animate-on-scroll rounded-2xl border border-border-light bg-card p-8 md:p-10">
             <h2 className="font-serif text-2xl md:text-3xl font-medium mb-2">在线投递简历</h2>
             <p className="text-sm text-muted-foreground font-light mb-8">
-              支持上传 PDF / Word（.pdf / .doc / .docx）。简历会同时发送到
-              <span className="text-foreground"> 1335929010@qq.com </span>
-              和
-              <span className="text-foreground"> fccgccn@gmail.com</span>。
+              支持上传 PDF / Word（.pdf / .doc / .docx）。
             </p>
 
             <form

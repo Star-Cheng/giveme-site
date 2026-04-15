@@ -127,7 +127,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground font-light mb-1">电话</div>
-                    <div className="font-medium">+86 185-8386-4108</div>
+                    <div className="font-medium">+86 xxx-xxxx-xxxx</div>
                   </div>
                 </a>
 
