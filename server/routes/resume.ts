@@ -47,23 +47,6 @@ function isAllowedFile(file: Express.Multer.File) {
   return extAllowed || mimeAllowed;
 }
 
-function normalizeAttachmentFilename(file: Express.Multer.File) {
-  const original = (file.originalname || "").trim();
-  const extFromName = path.extname(original).toLowerCase();
-  const extFromMime =
-    file.mimetype === "application/pdf"
-      ? ".pdf"
-      : file.mimetype === "application/msword"
-        ? ".doc"
-        : file.mimetype === "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-          ? ".docx"
-          : "";
-  const ext = ALLOWED_EXTENSIONS.has(extFromName) ? extFromName : extFromMime || ".pdf";
-  const nameWithoutExt = path.basename(original, ext).trim();
-  const safePrefix = nameWithoutExt ? nameWithoutExt.replace(/[^\w\u4e00-\u9fa5-]+/g, "_") : "resume";
-  return `${safePrefix || "resume"}-${Date.now()}${ext}`;
-}
-
 export const resumeRouter = Router();
 
 resumeRouter.post("/", upload.single("resume"), async (req: Request, res: Response) => {
@@ -96,7 +79,6 @@ resumeRouter.post("/", upload.single("resume"), async (req: Request, res: Respon
 
   try {
     const transporter = getMailerTransport();
-    const attachmentFilename = normalizeAttachmentFilename(file);
 
     await transporter.sendMail({
       from: senderEmail,
@@ -110,7 +92,7 @@ resumeRouter.post("/", upload.single("resume"), async (req: Request, res: Respon
         `投递岗位：${position}`,
         `补充说明：${isNonEmptyString(message) ? message : "未填写"}`,
         "",
-        `附件：${attachmentFilename}`,
+        `附件：${file.originalname}`,
       ].join("\n"),
       html: `
         <h2>收到新的简历投递</h2>
@@ -119,12 +101,12 @@ resumeRouter.post("/", upload.single("resume"), async (req: Request, res: Respon
           <li><strong>邮箱：</strong>${email}</li>
           <li><strong>投递岗位：</strong>${position}</li>
           <li><strong>补充说明：</strong>${isNonEmptyString(message) ? message : "未填写"}</li>
-          <li><strong>附件：</strong>${attachmentFilename}</li>
+          <li><strong>附件：</strong>${file.originalname}</li>
         </ul>
       `,
       attachments: [
         {
-          filename: attachmentFilename,
+          filename: file.originalname,
           content: file.buffer,
           contentType: file.mimetype,
         },
