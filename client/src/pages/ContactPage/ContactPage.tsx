@@ -4,6 +4,7 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function ContactPage() {
   useScrollReveal();
+  const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,26 +17,69 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+
+  const resolveSubmitTarget = () => {
+    if (apiBaseUrl) {
+      return `${apiBaseUrl.replace(/\/$/, "")}/api/contact-inquiries`;
+    }
+    // GitHub Pages 是纯静态环境，无 Node 后端，默认改走邮件转发表单服务
+    if (window.location.hostname.endsWith("github.io")) {
+      return "https://formsubmit.co/ajax/1335929010@qq.com";
+    }
+    return "/api/contact-inquiries";
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    window.setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        scene: "",
-        material: "",
-        precision: "",
-        cycle: "",
-        message: "",
+    setSubmitError("");
+    try {
+      const submitTarget = resolveSubmitTarget();
+      const isFormSubmit = submitTarget.includes("formsubmit.co/ajax/");
+      const payload = isFormSubmit
+        ? {
+            ...formData,
+            _subject: `【商务咨询】${formData.company} - ${formData.name}`,
+            _captcha: "false",
+            _template: "table",
+          }
+        : formData;
+
+      const response = await fetch(submitTarget, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
       });
-    }, 3000);
+
+      if (!response.ok) {
+        const result = (await response.json().catch(() => ({}))) as { error?: string };
+        throw new Error(result.error || "提交失败");
+      }
+
+      setIsSubmitted(true);
+      window.setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          scene: "",
+          material: "",
+          precision: "",
+          cycle: "",
+          message: "",
+        });
+      }, 3000);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "提交失败，请稍后再试";
+      setSubmitError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -278,8 +322,11 @@ export default function ContactPage() {
                     )}
                   </button>
                   <p className="text-xs text-muted-foreground font-light">
-                    提交为前端演示，未接后端；上线时请接入 CRM 或邮件服务。
+                    本地/服务端环境走后端接口；GitHub Pages 环境自动走邮件转发表单通道。
                   </p>
+                  {submitError ? (
+                    <p className="text-xs text-destructive font-light">{submitError}</p>
+                  ) : null}
                 </div>
               </form>
             </div>

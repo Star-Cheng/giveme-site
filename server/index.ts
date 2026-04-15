@@ -10,6 +10,7 @@ const app = express();
 
 // Platform middleware
 const { close } = setup(app);
+app.use(express.json());
 
 // All routes under basePath
 const router = express.Router();
