@@ -72,7 +72,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground font-light mb-1">商务与技术销售</div>
-                    <div className="font-medium">bd@zestone-laser.com（示例）</div>
+                    <div className="font-medium">fccgccn@gmail.com</div>
                   </div>
                 </a>
 
@@ -82,7 +82,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="text-xs text-muted-foreground font-light mb-1">电话</div>
-                    <div className="font-medium">+86 400-800-8800（示例）</div>
+                    <div className="font-medium">+86 185-8386-4108</div>
                   </div>
                 </a>
 
