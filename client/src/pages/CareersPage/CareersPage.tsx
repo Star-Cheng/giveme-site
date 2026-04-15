@@ -225,7 +225,7 @@ export default function CareersPage() {
                 </label>
                 <input
                   id="resume-file"
-                  name={isGithubPages ? "attachment" : "resume"}
+                  name="resume"
                   type="file"
                   onChange={handleFileChange}
                   accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
