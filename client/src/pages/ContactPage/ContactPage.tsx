@@ -111,7 +111,7 @@ export default function ContactPage() {
               </p>
 
               <div className="animate-hero delay-300 mt-12 space-y-6">
-                <a href="mailto:bd@ZeStone-Laser.com" className="flex items-center gap-4 group">
+                <a href="mailto:fccgccn@gmail.com" className="flex items-center gap-4 group">
                   <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors border border-border-light">
                     <Mail className="w-5 h-5 text-brand group-hover:text-white" />
                   </div>
