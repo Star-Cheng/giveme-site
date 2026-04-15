@@ -6,8 +6,6 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export default function CareersPage() {
   useScrollReveal();
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
-  const isGithubPages = window.location.hostname.endsWith("github.io");
-  const formSubmitAjaxAction = "https://formsubmit.co/ajax/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,8 +21,8 @@ export default function CareersPage() {
     if (apiBaseUrl) {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
-    if (isGithubPages) {
-      return formSubmitAjaxAction;
+    if (window.location.hostname.endsWith("github.io")) {
+      return "https://formsubmit.co/ajax/1335929010@qq.com";
     }
     return "/api/resume-submissions";
   };
@@ -48,19 +46,34 @@ export default function CareersPage() {
       setIsSubmitting(false);
       return;
     }
+
     const submitTarget = resolveSubmitTarget();
+    const isFormSubmit = submitTarget.includes("formsubmit.co/ajax/");
 
     const body = new FormData();
     body.append("name", formData.name);
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append("resume", resumeFile);
+
+    if (isFormSubmit) {
+      // FormSubmit 文件字段建议使用 attachment，才能以附件形式投递到邮箱
+      body.append("attachment", resumeFile);
+      body.append("_subject", `【简历投递】${formData.position} - ${formData.name}`);
+      body.append("_cc", "fccgccn@gmail.com");
+      body.append("_captcha", "false");
+      body.append("_template", "table");
+      body.append("_autoresponse", "已收到你的简历投递，我们会尽快联系你。");
+    } else {
+      body.append("resume", resumeFile);
+    }
 
     try {
       const response = await fetch(submitTarget, {
         method: "POST",
-        headers: { Accept: "application/json" },
+        headers: {
+          Accept: "application/json",
+        },
         body,
       });
 
@@ -160,18 +173,6 @@ export default function CareersPage() {
             </p>
 
             <form onSubmit={handleResumeSubmit} className="space-y-5">
-              {isGithubPages ? (
-                <>
-                  <input
-                    type="hidden"
-                    name="_subject"
-                    value={`【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`}
-                  />
-                  <input type="hidden" name="_cc" value="fccgccn@gmail.com" />
-                  <input type="hidden" name="_captcha" value="false" />
-                  <input type="hidden" name="_template" value="table" />
-                </>
-              ) : null}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="resume-name" className="block text-sm font-medium mb-2">
