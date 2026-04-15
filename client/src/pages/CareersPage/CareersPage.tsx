@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Gift, MessageCircle, Rocket, Upload } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
@@ -8,8 +8,7 @@ export default function CareersPage() {
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
   const isGithubPages = window.location.hostname.endsWith("github.io");
   const shouldUseFormSubmit = !apiBaseUrl && isGithubPages;
-  const formSubmitAction = "https://formsubmit.co/1335929010@qq.com";
-  const formSubmitIframeName = "resume-submit-target";
+  const formSubmitAjaxAction = "https://formsubmit.co/ajax/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,11 +19,13 @@ export default function CareersPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const formRef = useRef<HTMLFormElement | null>(null);
 
   const resolveSubmitTarget = () => {
     if (apiBaseUrl) {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
+    }
+    if (shouldUseFormSubmit) {
+      return formSubmitAjaxAction;
     }
     return "/api/resume-submissions";
   };
@@ -38,29 +39,13 @@ export default function CareersPage() {
     setResumeFile(file);
   };
 
-  const handleResumeSubmit = async (e?: FormEvent<HTMLFormElement>) => {
-    e?.preventDefault();
-    e?.stopPropagation();
+  const handleResumeSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     setSubmitError("");
-
-    if (formRef.current && !formRef.current.reportValidity()) {
-      return;
-    }
-
     setIsSubmitting(true);
 
     if (!resumeFile) {
       setSubmitError("请上传 PDF 或 Word 简历文件");
-      setIsSubmitting(false);
-      return;
-    }
-
-    if (shouldUseFormSubmit) {
-      formRef.current?.submit();
-      setIsSubmitted(true);
-      setResumeFile(null);
-      setFormData({ name: "", email: "", position: "", message: "" });
-      window.setTimeout(() => setIsSubmitted(false), 3000);
       setIsSubmitting(false);
       return;
     }
@@ -72,7 +57,16 @@ export default function CareersPage() {
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append("resume", resumeFile);
+    body.append(shouldUseFormSubmit ? "attachment" : "resume", resumeFile);
+    if (shouldUseFormSubmit) {
+      body.append(
+        "_subject",
+        `【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`,
+      );
+      body.append("_cc", "fccgccn@gmail.com");
+      body.append("_captcha", "false");
+      body.append("_template", "table");
+    }
 
     try {
       const response = await fetch(submitTarget, {
@@ -177,12 +171,7 @@ export default function CareersPage() {
             </p>
 
             <form
-              ref={formRef}
               onSubmit={handleResumeSubmit}
-              action={shouldUseFormSubmit ? formSubmitAction : undefined}
-              method={shouldUseFormSubmit ? "POST" : undefined}
-              encType={shouldUseFormSubmit ? "multipart/form-data" : undefined}
-              target={shouldUseFormSubmit ? formSubmitIframeName : undefined}
               className="space-y-5"
             >
               {shouldUseFormSubmit ? (
@@ -196,14 +185,6 @@ export default function CareersPage() {
                   <input type="hidden" name="_captcha" value="false" />
                   <input type="hidden" name="_template" value="table" />
                 </>
-              ) : null}
-              {shouldUseFormSubmit ? (
-                <iframe
-                  name={formSubmitIframeName}
-                  title="resume-submit-target"
-                  className="hidden"
-                  aria-hidden="true"
-                />
               ) : null}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
@@ -286,10 +267,7 @@ export default function CareersPage() {
               </div>
 
               <button
-                type="button"
-                onClick={() => {
-                  void handleResumeSubmit();
-                }}
+                type="submit"
                 disabled={isSubmitting || isSubmitted}
                 className={`w-full py-4 rounded-lg font-medium flex items-center justify-center gap-2 transition-all ${
                   isSubmitted ? "bg-success text-white" : "bg-foreground text-background hover:bg-brand"
