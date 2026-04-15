@@ -6,6 +6,8 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export default function CareersPage() {
   useScrollReveal();
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
+  const isGithubPages = window.location.hostname.endsWith("github.io");
+  const formSubmitAjaxAction = "https://formsubmit.co/ajax/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,10 +23,18 @@ export default function CareersPage() {
     if (apiBaseUrl) {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
-    if (window.location.hostname.endsWith("github.io")) {
-      return "https://formsubmit.co/ajax/1335929010@qq.com";
+    if (isGithubPages) {
+      return formSubmitAjaxAction;
     }
     return "/api/resume-submissions";
+  };
+
+  const buildNormalizedFilename = (file: File) => {
+    const rawName = file.name || "";
+    const dotIndex = rawName.lastIndexOf(".");
+    const ext = dotIndex >= 0 ? rawName.slice(dotIndex).toLowerCase() : "";
+    const allowedExt = ext === ".pdf" || ext === ".doc" || ext === ".docx" ? ext : ".pdf";
+    return `resume-${Date.now()}${allowedExt}`;
   };
 
   const handleTextChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -46,18 +56,16 @@ export default function CareersPage() {
       setIsSubmitting(false);
       return;
     }
-
     const submitTarget = resolveSubmitTarget();
-    const isFormSubmit = submitTarget.includes("formsubmit.co/ajax/");
 
     const body = new FormData();
     body.append("name", formData.name);
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append("resume", resumeFile);
-
-    if (isFormSubmit) {
+    const normalizedFilename = buildNormalizedFilename(resumeFile);
+    body.append(isGithubPages ? "attachment" : "resume", resumeFile, normalizedFilename);
+    if (isGithubPages) {
       body.append("_subject", `【简历投递】${formData.position} - ${formData.name}`);
       body.append("_cc", "fccgccn@gmail.com");
       body.append("_captcha", "false");
@@ -67,9 +75,7 @@ export default function CareersPage() {
     try {
       const response = await fetch(submitTarget, {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
+        headers: { Accept: "application/json" },
         body,
       });
 
@@ -169,6 +175,21 @@ export default function CareersPage() {
             </p>
 
             <form onSubmit={handleResumeSubmit} className="space-y-5">
+<<<<<<< HEAD
+              {isGithubPages ? (
+                <>
+                  <input
+                    type="hidden"
+                    name="_subject"
+                    value={`【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`}
+                  />
+                  <input type="hidden" name="_cc" value="fccgccn@gmail.com" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                </>
+              ) : null}
+=======
+>>>>>>> 5d893cf (```)
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="resume-name" className="block text-sm font-medium mb-2">
