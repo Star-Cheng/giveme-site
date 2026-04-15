@@ -55,13 +55,17 @@ export default function CareersPage() {
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-    body.append("resume", resumeFile);
 
     if (isFormSubmit) {
+      // FormSubmit 文件字段建议使用 attachment，才能以附件形式投递到邮箱
+      body.append("attachment", resumeFile);
       body.append("_subject", `【简历投递】${formData.position} - ${formData.name}`);
       body.append("_cc", "fccgccn@gmail.com");
       body.append("_captcha", "false");
       body.append("_template", "table");
+      body.append("_autoresponse", "已收到你的简历投递，我们会尽快联系你。");
+    } else {
+      body.append("resume", resumeFile);
     }
 
     try {
