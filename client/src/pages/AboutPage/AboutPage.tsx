@@ -26,7 +26,7 @@ export default function AboutPage() {
               关于我们
             </span>
             <h1 className="animate-hero delay-100 font-serif text-4xl md:text-5xl font-medium mt-4 mb-6">
-              智石激光 ZeStone Layser
+              智石激光 ZeStone Laser
             </h1>
             <div className="animate-hero delay-200 space-y-4 text-muted-foreground font-light leading-relaxed text-sm md:text-base">
               <p>
