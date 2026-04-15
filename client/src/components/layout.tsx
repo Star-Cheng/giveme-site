@@ -17,6 +17,7 @@ export function Layout({ children }: { children: ReactNode }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const logoSrc = `${import.meta.env.BASE_URL}favicon.svg`;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -57,7 +58,7 @@ export function Layout({ children }: { children: ReactNode }) {
             aria-label="智石激光首页"
           >
             <img
-              src="/favicon.svg"
+              src={logoSrc}
               alt="智石激光 Logo"
               className="w-9 h-9 sm:w-10 sm:h-10 object-contain"
             />
