@@ -29,14 +29,6 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-br from-slate-500/5 via-transparent to-primary/5" />
           <div className="absolute top-1/4 left-1/4 w-[28rem] h-[28rem] rounded-full bg-cyan-500/5 blur-3xl parallax-slow" />
           <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary/10 blur-3xl parallax-slow" />
-          <div
-            className="absolute left-1/2 top-1/2 h-[120%] w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-primary/40 to-transparent opacity-60"
-            aria-hidden
-          />
-          <div
-            className="absolute left-[40%] top-[20%] h-[60%] w-px bg-gradient-to-b from-cyan-500/20 via-primary/30 to-transparent motion-safe:animate-pulse"
-            aria-hidden
-          />
         </div>
 
         <div className="container-custom text-center">
