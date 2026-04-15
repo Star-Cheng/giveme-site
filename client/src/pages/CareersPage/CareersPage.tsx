@@ -7,7 +7,7 @@ export default function CareersPage() {
   useScrollReveal();
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
   const isGithubPages = window.location.hostname.endsWith("github.io");
-  const formSubmitAction = "https://formsubmit.co/1335929010@qq.com";
+  const formSubmitAjaxAction = "https://formsubmit.co/ajax/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,6 +23,9 @@ export default function CareersPage() {
     if (apiBaseUrl) {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
+    if (isGithubPages) {
+      return formSubmitAjaxAction;
+    }
     return "/api/resume-submissions";
   };
 
@@ -36,26 +39,15 @@ export default function CareersPage() {
   };
 
   const handleResumeSubmit = async (e: FormEvent) => {
+    e.preventDefault();
     setSubmitError("");
     setIsSubmitting(true);
 
     if (!resumeFile) {
-      e.preventDefault();
       setSubmitError("请上传 PDF 或 Word 简历文件");
       setIsSubmitting(false);
       return;
     }
-
-    if (isGithubPages) {
-      // GitHub Pages 走原生 multipart form 提交到 FormSubmit，确保附件可达
-      window.setTimeout(() => {
-        setIsSubmitting(false);
-        setIsSubmitted(true);
-      }, 800);
-      return;
-    }
-
-    e.preventDefault();
     const submitTarget = resolveSubmitTarget();
 
     const body = new FormData();
@@ -68,9 +60,7 @@ export default function CareersPage() {
     try {
       const response = await fetch(submitTarget, {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
+        headers: { Accept: "application/json" },
         body,
       });
 
@@ -169,14 +159,7 @@ export default function CareersPage() {
               <span className="text-foreground"> fccgccn@gmail.com</span>。
             </p>
 
-            <form
-              onSubmit={handleResumeSubmit}
-              action={isGithubPages ? formSubmitAction : undefined}
-              method={isGithubPages ? "POST" : undefined}
-              encType={isGithubPages ? "multipart/form-data" : undefined}
-              target={isGithubPages ? "resume-submit-frame" : undefined}
-              className="space-y-5"
-            >
+            <form onSubmit={handleResumeSubmit} className="space-y-5">
               {isGithubPages ? (
                 <>
                   <input
@@ -292,7 +275,6 @@ export default function CareersPage() {
               ) : null}
               {submitError ? <p className="text-sm text-destructive">{submitError}</p> : null}
             </form>
-            {isGithubPages ? <iframe name="resume-submit-frame" className="hidden" title="resume-submit-frame" /> : null}
           </div>
 
           <div className="text-center mt-10">
