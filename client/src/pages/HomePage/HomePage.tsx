@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { ArrowRight, Cpu, Sparkles, Zap } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import logoImage from "@/assets/logo.jpg";
 
 export default function HomePage() {
   useScrollReveal();
@@ -32,6 +33,14 @@ export default function HomePage() {
         </div>
 
         <div className="container-custom text-center">
+          <div className="animate-hero mb-5 flex justify-center">
+            <img
+              src={logoImage}
+              alt="ZeStone Laser Logo"
+              className="w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] md:w-[300px] md:h-[300px] object-cover rounded-2xl shadow-lg"
+            />
+          </div>
+
           <div className="animate-hero delay-100 mb-8">
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-card rounded-full text-xs font-medium text-muted-foreground tracking-wider uppercase border border-border-light">
               <Sparkles className="w-3 h-3 text-brand" />
