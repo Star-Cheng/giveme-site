@@ -1,0 +1,308 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* 语义化颜色 */
+  --color-background: hsl(40 33% 97%);
+  --color-foreground: hsl(220 13% 18%);
+  --color-muted-foreground: hsl(220 8% 45%);
+  --color-card: hsl(40 30% 98%);
+  --color-card-foreground: hsl(220 13% 18%);
+  --color-primary: hsl(36 65% 45%);
+  --color-primary-foreground: hsl(40 33% 97%);
+  --color-accent: hsl(36 45% 55%);
+  --color-accent-foreground: hsl(220 13% 18%);
+  --color-border: hsl(36 20% 88%);
+  --color-border-light: hsl(36 15% 93%);
+  --color-destructive: hsl(0 72% 51%);
+  --color-success: hsl(142 72% 42%);
+  --color-warning: hsl(38 92% 50%);
+
+  /* 字体系统 */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+
+  /* 间距系统 */
+  --spacing-section: 8rem;
+  --spacing-section-sm: 4rem;
+
+  /* 动画时长 */
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 500ms;
+  --duration-entrance: 800ms;
+}
+
+/* 基础重置 */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 衬线字体用于标题 */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+/* 品牌金色 */
+.text-brand {
+  color: var(--color-primary);
+}
+
+.bg-brand {
+  background-color: var(--color-primary);
+}
+
+/* 入场动画类 */
+.animate-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity var(--duration-entrance) ease-out, transform var(--duration-entrance) ease-out;
+}
+
+.animate-fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animate-fade-in {
+  opacity: 0;
+  transition: opacity var(--duration-entrance) ease-out;
+}
+
+.animate-fade-in.visible {
+  opacity: 1;
+}
+
+.animate-scale-in {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity var(--duration-slow) ease-out, transform var(--duration-slow) ease-out;
+}
+
+.animate-scale-in.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 延迟动画 */
+.delay-100 { transition-delay: 100ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-300 { transition-delay: 300ms; }
+.delay-400 { transition-delay: 400ms; }
+.delay-500 { transition-delay: 500ms; }
+.delay-600 { transition-delay: 600ms; }
+
+/* 滚动视差 */
+.parallax-slow {
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* 悬停效果 */
+.hover-lift {
+  transition: transform var(--duration-normal) ease-out, box-shadow var(--duration-normal) ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(36, 36, 36, 0.1);
+}
+
+.hover-glow {
+  transition: box-shadow var(--duration-normal) ease-out;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px -10px var(--color-primary);
+}
+
+/* 链接下划线动画 */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width var(--duration-normal) ease-out;
+}
+
+.link-underline:hover::after {
+  width: 100%;
+}
+
+/* 图片悬停放大 */
+.img-zoom {
+  overflow: hidden;
+}
+
+.img-zoom img {
+  transition: transform var(--duration-slow) ease-out;
+}
+
+.img-zoom:hover img {
+  transform: scale(1.05);
+}
+
+/* 滚动条样式 */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-border-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted-foreground);
+}
+
+/* 选择文本颜色 */
+::selection {
+  background-color: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+/* 焦点样式 */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Section 间距 */
+.section {
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding-top: var(--spacing-section-sm);
+    padding-bottom: var(--spacing-section-sm);
+  }
+}
+
+/* 容器 */
+.container-custom {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* 分隔线 */
+.divider {
+  width: 60px;
+  height: 1px;
+  background-color: var(--color-primary);
+}
+
+/* 装饰元素 */
+.decorative-line {
+  position: relative;
+}
+
+.decorative-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -40px;
+  width: 30px;
+  height: 1px;
+  background-color: var(--color-border);
+}
+
+/* 移动端菜单 */
+.mobile-menu {
+  transform: translateX(100%);
+  transition: transform var(--duration-normal) ease-out;
+}
+
+.mobile-menu.open {
+  transform: translateX(0);
+}
+
+/* 按钮样式 */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--color-foreground);
+  color: var(--color-background);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-normal) ease-out;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary);
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: transparent;
+  color: var(--color-foreground);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  border: 1px solid var(--color-foreground);
+  cursor: pointer;
+  transition: all var(--duration-normal) ease-out;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-foreground);
+  color: var(--color-background);
+}
+
+/* 卡片悬停 */
+.card-hover {
+  transition: transform var(--duration-normal) ease-out, box-shadow var(--duration-normal) ease-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+}
+
+/* 箭头动画 */
+.arrow-icon {
+  display: inline-block;
+  transition: transform var(--duration-normal) ease-out;
+}
+
+.arrow-icon:hover {
+  transform: translateX(4px);
+}
