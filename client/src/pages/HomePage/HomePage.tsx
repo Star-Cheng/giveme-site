@@ -1,131 +1,108 @@
-import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { ArrowRight, Cpu, Sparkles, Zap } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function HomePage() {
+  useScrollReveal();
   const heroRef = useRef<HTMLDivElement>(null);
-  const statsRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // 入场动画
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, observerOptions);
-
-    // 观察所有需要动画的元素
-    const animatedElements = document.querySelectorAll(".animate-on-scroll");
-    animatedElements.forEach((el) => observer.observe(el));
-
-    // Hero 元素立即显示
-    setTimeout(() => {
-      const heroElements = document.querySelectorAll(".animate-hero");
-      heroElements.forEach((el) => el.classList.add("visible"));
-    }, 100);
-
-    return () => observer.disconnect();
-  }, []);
-
-  // 滚动视差效果
   useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY;
-      const heroElements = document.querySelectorAll(".parallax-slow");
-      heroElements.forEach((el) => {
-        const speed = 0.3;
-        const yPos = scrolled * speed;
-        (el as HTMLElement).style.transform = `translateY(${yPos}px)`;
+      document.querySelectorAll(".parallax-slow").forEach((el) => {
+        const speed = 0.25;
+        (el as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
       });
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <div>
-      {/* Hero 区域 */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24"
       >
-        {/* 装饰背景 */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl parallax-slow" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl parallax-slow" />
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-500/5 via-transparent to-primary/5" />
+          <div className="absolute top-1/4 left-1/4 w-[28rem] h-[28rem] rounded-full bg-cyan-500/5 blur-3xl parallax-slow" />
+          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary/10 blur-3xl parallax-slow" />
+          <div
+            className="absolute left-1/2 top-1/2 h-[120%] w-px -translate-x-1/2 -translate-y-1/2 bg-gradient-to-b from-transparent via-primary/40 to-transparent opacity-60"
+            aria-hidden
+          />
+          <div
+            className="absolute left-[40%] top-[20%] h-[60%] w-px bg-gradient-to-b from-cyan-500/20 via-primary/30 to-transparent motion-safe:animate-pulse"
+            aria-hidden
+          />
         </div>
 
         <div className="container-custom text-center">
-          {/* 标签 */}
           <div className="animate-hero delay-100 mb-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-card rounded-full text-xs font-medium text-muted-foreground tracking-wider uppercase">
+            <span className="inline-flex items-center gap-2 px-4 py-2 bg-card rounded-full text-xs font-medium text-muted-foreground tracking-wider uppercase border border-border-light">
               <Sparkles className="w-3 h-3 text-brand" />
-              创意设计师 & 品牌策划
+              ZeStone Laser · 智石激光
             </span>
           </div>
 
-          {/* 主标题 */}
-          <h1 className="animate-hero delay-200 font-serif text-5xl md:text-7xl lg:text-8xl font-medium leading-tight mb-6">
-            <span className="block">设计不只是好看</span>
-            <span className="block text-brand italic">
-              而是让品牌说话
-            </span>
+          <h1 className="animate-hero delay-200 font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-tight mb-6 max-w-5xl mx-auto">
+            <span className="block">AI 驱动的下一代</span>
+            <span className="block text-brand italic">高精度智能激光器</span>
           </h1>
 
-          {/* 副标题 */}
-          <p className="animate-hero delay-300 text-lg md:text-xl text-muted-foreground font-light max-w-2xl mx-auto mb-12 leading-relaxed">
-            八年深耕品牌设计与数字体验，帮助创业者和成长型企业构建有温度、有辨识度的视觉形象
+          <p className="animate-hero delay-300 text-lg md:text-xl text-muted-foreground font-light max-w-2xl mx-auto mb-4 leading-relaxed">
+            不做工具人，做领域的开创者。
+          </p>
+          <p className="animate-hero delay-300 text-sm md:text-base text-muted-foreground/90 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
+            以开放、创新、自由与精益求精为底色，让光子与算法在产线上同频——精度可度量、工艺可迭代、人才被尊重。
           </p>
 
-          {/* CTA 按钮 */}
-          <div className="animate-hero delay-400 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/portfolio" className="btn-primary group">
-              查看作品集
+          <div className="animate-hero delay-400 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 flex-wrap">
+            <Link to="/products" className="btn-primary group">
+              探索产品
               <ArrowRight className="w-4 h-4 arrow-icon" />
             </Link>
             <Link to="/contact" className="btn-outline">
-              发起合作
+              预约技术交流
+            </Link>
+            <Link to="/careers" className="btn-outline">
+              加入我们
             </Link>
           </div>
 
-          {/* 滚动提示 */}
-          <div className="animate-hero delay-500 absolute bottom-12 left-1/2 -translate-x-1/2">
-            <div className="flex flex-col items-center gap-2 text-muted-foreground">
-              <span className="text-xs tracking-widest uppercase font-light">
-                向下探索
-              </span>
-              <div className="w-px h-12 bg-gradient-to-b from-transparent via-border to-transparent" />
-            </div>
+          <p className="animate-hero delay-500 mt-16 text-xs text-muted-foreground max-w-xl mx-auto leading-relaxed">
+            主视觉示意：微米级加工动态与 AI 实时优化光路的抽象表达。合作伙伴 Logo、专利与认证标识可在取得授权后置于本区域下方。
+          </p>
+
+          <div className="animate-hero delay-500 absolute bottom-10 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 text-muted-foreground">
+            <span className="text-xs tracking-widest uppercase font-light">向下探索</span>
+            <div className="w-px h-10 bg-gradient-to-b from-transparent via-border to-transparent" />
           </div>
         </div>
       </section>
 
-      {/* 数据展示 */}
-      <section ref={statsRef} className="py-20 bg-card/50">
+      <section className="py-20 bg-card/50 border-y border-border-light">
         <div className="container-custom">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
             {[
-              { number: "8+", label: "年设计经验" },
-              { number: "200+", label: "完成项目" },
-              { number: "50+", label: "合作品牌" },
-              { number: "12", label: "国际奖项" },
+              { icon: Zap, k: "±1 μm 级", label: "重复定位精度（典型工况，以机型为准）" },
+              { icon: Cpu, k: "< 250 μs", label: "闭环响应架构目标" },
+              { icon: Sparkles, k: "AI 自适应", label: "焦点自优化 · 热漂移补偿 · 路径智能规划" },
+              { icon: ArrowRight, k: "OTA 策略", label: "工艺包持续演进" },
             ].map((stat, index) => (
               <div
                 key={stat.label}
-                className={`animate-on-scroll text-center delay-${(index + 1) * 100}`}
+                className={`animate-on-scroll text-center md:text-left delay-${(index + 1) * 100}`}
               >
-                <div className="font-serif text-4xl md:text-5xl font-medium text-brand mb-2">
-                  {stat.number}
+                <div className="inline-flex md:flex mb-3 text-brand justify-center md:justify-start">
+                  <stat.icon className="w-5 h-5" />
                 </div>
-                <div className="text-sm text-muted-foreground font-light">
+                <div className="font-serif text-2xl md:text-3xl font-medium text-foreground mb-2">
+                  {stat.k}
+                </div>
+                <div className="text-xs md:text-sm text-muted-foreground font-light leading-relaxed">
                   {stat.label}
                 </div>
               </div>
@@ -134,110 +111,94 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 精选作品 */}
       <section className="section">
         <div className="container-custom">
-          {/* 标题区 */}
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
             <div>
               <span className="animate-on-scroll text-xs tracking-widest uppercase text-brand font-medium">
-                精选作品
+                产品系列
               </span>
               <h2 className="animate-on-scroll delay-100 font-serif text-3xl md:text-4xl font-medium mt-4">
-                每一个作品都是一个故事
+                AI + 高精度，场景化交付
               </h2>
             </div>
             <Link
-              to="/portfolio"
+              to="/products"
               className="animate-on-scroll delay-200 inline-flex items-center gap-2 text-sm font-medium hover:text-brand transition-colors group"
             >
-              查看全部作品
+              进入产品中心
               <ArrowRight className="w-4 h-4 arrow-icon" />
             </Link>
           </div>
 
-          {/* 作品网格 */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
-            {featuredWorks.map((work, index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {productTeasers.map((item, index) => (
               <Link
-                key={work.title}
-                to="/portfolio"
-                className={`animate-on-scroll delay-${(index + 1) * 100} group block ${
-                  index === 0 ? "md:row-span-2" : ""
-                }`}
+                key={item.title}
+                to="/products"
+                className={`animate-on-scroll delay-${(index + 1) * 100} group block rounded-xl border border-border bg-card p-8 card-hover`}
               >
-                <article
-                  className={`relative overflow-hidden rounded-lg bg-card card-hover ${
-                    index === 0 ? "aspect-[4/5] md:aspect-[3/4]" : "aspect-[4/3]"
-                  }`}
-                >
-                  {/* 图片占位 - 使用渐变色 */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-card to-border-light group-hover:to-border transition-colors" />
-                  
-                  {/* 装饰图案 */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-32 h-32 rounded-full bg-gradient-to-br from-primary/10 to-transparent group-hover:scale-110 transition-transform duration-500" />
-                  </div>
-
-                  {/* 内容 */}
-                  <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-8 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                    <span className="text-xs font-medium text-brand mb-2">
-                      {work.category}
-                    </span>
-                    <h3 className="font-serif text-xl md:text-2xl font-medium text-white mb-2">
-                      {work.title}
-                    </h3>
-                    <p className="text-sm text-white/70 font-light line-clamp-2">
-                      {work.description}
-                    </p>
-                  </div>
-                </article>
+                <h3 className="font-serif text-xl font-medium mb-2 group-hover:text-brand transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-muted-foreground font-light leading-relaxed mb-4">
+                  {item.desc}
+                </p>
+                <span className="text-xs text-brand font-medium">查看参数与 AI 亮点 →</span>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 服务理念 */}
       <section className="section bg-card/30">
-        <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
-            <span className="animate-on-scroll text-xs tracking-widest uppercase text-brand font-medium">
-              设计理念
-            </span>
-            <blockquote className="animate-on-scroll delay-100 font-serif text-2xl md:text-3xl lg:text-4xl font-normal leading-relaxed mt-6 mb-8">
-              "好的设计是尽可能少的设计。每一个细节都应该服务于整体，
-              <span className="text-brand italic"> 每一处留白都应该有存在的意义。</span>"
-            </blockquote>
-            <div className="animate-on-scroll delay-200 flex items-center justify-center gap-3">
-              <div className="w-12 h-px bg-brand" />
-              <span className="text-sm text-muted-foreground font-light">
-                陈思远
+        <div className="container-custom max-w-3xl mx-auto text-center">
+          <span className="animate-on-scroll text-xs tracking-widest uppercase text-brand font-medium">
+            信任与合规（占位）
+          </span>
+          <p className="animate-on-scroll delay-100 text-muted-foreground font-light mt-4 mb-8 leading-relaxed">
+            战略合作伙伴标识、已授权专利数量、CE / RoHS / 激光安全等级等认证，待市场与法务确认后替换本段文案与 Logo 墙。
+          </p>
+          <div className="animate-on-scroll delay-200 flex flex-wrap justify-center gap-3">
+            {["半导体", "医疗精密", "航空航天", "新能源"].map((tag) => (
+              <span
+                key={tag}
+                className="px-4 py-2 rounded-full border border-border text-xs text-muted-foreground"
+              >
+                {tag} · 试点与联合实验室
               </span>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* CTA 区域 */}
       <section className="section">
         <div className="container-custom">
           <div className="animate-on-scroll relative overflow-hidden rounded-2xl bg-foreground text-background p-12 md:p-16 text-center">
-            {/* 装饰 */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-accent/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
-
+            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+            <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
             <div className="relative z-10">
               <h2 className="font-serif text-3xl md:text-4xl font-medium mb-4">
-                准备好开始你的项目了吗？
+                与光子一起，重新定义工艺极限
               </h2>
               <p className="text-background/70 font-light max-w-lg mx-auto mb-8">
-                从品牌定位到视觉呈现，我将与您一起打造独特的品牌形象
+                预约技术交流或加入「开放实验室」，与光学、AI、机械、材料等领域的同路人并肩迭代。
               </p>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-background text-foreground font-medium hover:bg-brand hover:text-white transition-colors">
-                预约咨询
-                <ArrowRight className="w-4 h-4" />
-              </Link>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <Link
+                  to="/contact"
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-background text-foreground font-medium hover:bg-brand hover:text-white transition-colors"
+                >
+                  预约技术交流
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  to="/solutions"
+                  className="inline-flex items-center gap-2 px-8 py-4 border border-background/40 text-background font-medium hover:bg-background/10 transition-colors"
+                >
+                  解决方案与案例
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -246,21 +207,17 @@ export default function HomePage() {
   );
 }
 
-// 精选作品数据
-const featuredWorks = [
+const productTeasers = [
   {
-    title: "山茶花精品酒店",
-    category: "品牌设计",
-    description: "为一家位于杭州的精品酒店打造完整的品牌形象，包括 LOGO、VI 系统和导视设计",
+    title: "微加工系列",
+    desc: "脆硬材料微槽、微孔与精密切割；AI 抑制崩边与锥度漂移。",
   },
   {
-    title: "墨白茶饮",
-    category: "包装设计",
-    description: "新中式茶饮品牌全套视觉系统与产品包装设计",
+    title: "精密焊接系列",
+    desc: "薄材与异种金属；热影响区与飞溅的实时预测与参数回退。",
   },
   {
-    title: "星辰科技",
-    category: "品牌重塑",
-    description: "为 AI 创业公司构建年轻化、国际化的品牌形象",
+    title: "表面处理系列",
+    desc: "清洗、纹理化与选择性改性；路径与能量分布协同优化。",
   },
 ];

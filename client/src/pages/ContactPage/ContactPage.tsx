@@ -1,59 +1,38 @@
-import { useState, useEffect, type FormEvent } from "react";
-import { Send, MapPin, Mail, Phone } from "lucide-react";
+import { useState, type FormEvent } from "react";
+import { Send, MapPin, Mail, Phone, FileCode, Wrench } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function ContactPage() {
+  useScrollReveal();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
-    budget: "",
+    scene: "",
+    material: "",
+    precision: "",
+    cycle: "",
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: "0px 0px -50px 0px",
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-        }
-      });
-    }, observerOptions);
-
-    const animatedElements = document.querySelectorAll(".animate-on-scroll");
-    animatedElements.forEach((el) => observer.observe(el));
-
-    setTimeout(() => {
-      const heroElements = document.querySelectorAll(".animate-hero");
-      heroElements.forEach((el) => el.classList.add("visible"));
-    }, 100);
-
-    return () => observer.disconnect();
-  }, []);
-
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // 模拟提交
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     setIsSubmitted(true);
-    
-    // 重置表单
-    setTimeout(() => {
+    window.setTimeout(() => {
       setIsSubmitted(false);
       setFormData({
         name: "",
         email: "",
         company: "",
-        budget: "",
+        scene: "",
+        material: "",
+        precision: "",
+        cycle: "",
         message: "",
       });
     }, 3000);
@@ -69,85 +48,87 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="pt-32">
-      {/* Hero */}
+    <div className="pt-28">
       <section className="section pb-12">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* 左侧内容 */}
             <div>
               <span className="animate-hero text-xs tracking-widest uppercase text-brand font-medium">
-                联系方式
+                联系我们与支持
               </span>
               <h1 className="animate-hero delay-100 font-serif text-4xl md:text-5xl lg:text-6xl font-medium mt-4 mb-6">
-                让我们一起
+                商务、技术与
                 <br />
-                <span className="text-brand italic">创造美好</span>
+                <span className="text-brand italic">开放合作</span>
               </h1>
-              <p className="animate-hero delay-200 text-lg text-muted-foreground font-light max-w-md">
-                无论是新品牌启动还是品牌升级，我都很乐意了解您的项目。
-                期待与您一起探讨合作的可能性。
+              <p className="animate-hero delay-200 text-muted-foreground font-light max-w-md leading-relaxed">
+                左侧为商务与售前咨询入口；技术支持、固件与 API 文档链接可在后端就绪后替换为真实地址。
               </p>
 
-              {/* 联系信息 */}
               <div className="animate-hero delay-300 mt-12 space-y-6">
-                <a
-                  href="mailto:siyuan.chen@studio.com"
-                  className="flex items-center gap-4 group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors">
+                <a href="mailto:bd@zestone-laser.com" className="flex items-center gap-4 group">
+                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors border border-border-light">
                     <Mail className="w-5 h-5 text-brand group-hover:text-white" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground font-light mb-1">
-                      邮箱
-                    </div>
-                    <div className="font-medium">siyuan.chen@studio.com</div>
+                    <div className="text-xs text-muted-foreground font-light mb-1">商务与技术销售</div>
+                    <div className="font-medium">bd@zestone-laser.com（示例）</div>
                   </div>
                 </a>
 
-                <a
-                  href="tel:+8613912345678"
-                  className="flex items-center gap-4 group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors">
+                <a href="tel:+864008008800" className="flex items-center gap-4 group">
+                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center group-hover:bg-brand group-hover:text-white transition-colors border border-border-light">
                     <Phone className="w-5 h-5 text-brand group-hover:text-white" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground font-light mb-1">
-                      电话
-                    </div>
-                    <div className="font-medium">+86 139 1234 5678</div>
+                    <div className="text-xs text-muted-foreground font-light mb-1">电话</div>
+                    <div className="font-medium">+86 400-800-8800（示例）</div>
                   </div>
                 </a>
 
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border-light shrink-0">
                     <MapPin className="w-5 h-5 text-brand" />
                   </div>
                   <div>
-                    <div className="text-xs text-muted-foreground font-light mb-1">
-                      地址
+                    <div className="text-xs text-muted-foreground font-light mb-1">总部 / 开放实验室（规划中）</div>
+                    <div className="font-medium text-sm leading-relaxed">
+                      中国 · __ 市 __ 区 __ 路 __ 号
+                      <br />
+                      <span className="text-muted-foreground font-light text-xs">访客预约制，地图与停车指引上线前可隐藏本段</span>
                     </div>
-                    <div className="font-medium">深圳市南山区科兴科学园</div>
                   </div>
                 </div>
               </div>
+
+              <div className="animate-hero delay-400 mt-12 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <a
+                  href="#support"
+                  className="flex items-center gap-3 p-4 rounded-xl border border-border bg-card hover:border-brand/30 transition-colors text-sm"
+                >
+                  <Wrench className="w-5 h-5 text-brand shrink-0" />
+                  <span className="font-light text-muted-foreground">技术支持与 FAQ</span>
+                </a>
+                <a
+                  href="#support"
+                  className="flex items-center gap-3 p-4 rounded-xl border border-border bg-card hover:border-brand/30 transition-colors text-sm"
+                >
+                  <FileCode className="w-5 h-5 text-brand shrink-0" />
+                  <span className="font-light text-muted-foreground">API 文档与固件下载</span>
+                </a>
+              </div>
             </div>
 
-            {/* 右侧表单 */}
             <div className="animate-hero delay-200">
               <form
                 onSubmit={handleSubmit}
-                className="bg-card rounded-2xl p-8 md:p-10 shadow-sm"
+                className="bg-card rounded-2xl p-8 md:p-10 shadow-sm border border-border-light"
               >
-                <div className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <h2 className="font-serif text-xl font-medium mb-6">商务咨询表单</h2>
+                <div className="space-y-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium mb-2"
-                      >
+                      <label htmlFor="name" className="block text-sm font-medium mb-2">
                         您的姓名 *
                       </label>
                       <input
@@ -157,16 +138,12 @@ export default function ContactPage() {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        placeholder="张三"
                         className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
                       />
                     </div>
                     <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium mb-2"
-                      >
-                        邮箱地址 *
+                      <label htmlFor="email" className="block text-sm font-medium mb-2">
+                        工作邮箱 *
                       </label>
                       <input
                         type="email"
@@ -175,60 +152,95 @@ export default function ContactPage() {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        placeholder="zhangsan@example.com"
                         className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
                       />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="company"
-                        className="block text-sm font-medium mb-2"
-                      >
-                        公司/品牌
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        placeholder="您的公司名称"
-                        className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="budget"
-                        className="block text-sm font-medium mb-2"
-                      >
-                        项目预算
-                      </label>
-                      <select
-                        id="budget"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors appearance-none cursor-pointer"
-                      >
-                        <option value="">请选择预算范围</option>
-                        <option value="5k-10k">¥ 5,000 - 10,000</option>
-                        <option value="10k-30k">¥ 10,000 - 30,000</option>
-                        <option value="30k-50k">¥ 30,000 - 50,000</option>
-                        <option value="50k-100k">¥ 50,000 - 100,000</option>
-                        <option value="100k+">¥ 100,000+</option>
-                      </select>
                     </div>
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium mb-2"
+                    <label htmlFor="company" className="block text-sm font-medium mb-2">
+                      公司 / 机构 *
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      required
+                      className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="scene" className="block text-sm font-medium mb-2">
+                      应用场景 *
+                    </label>
+                    <input
+                      type="text"
+                      id="scene"
+                      name="scene"
+                      value={formData.scene}
+                      onChange={handleChange}
+                      required
+                      placeholder="如：极耳焊接、晶圆划片、微孔…"
+                      className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <div>
+                      <label htmlFor="material" className="block text-sm font-medium mb-2">
+                        主要材料
+                      </label>
+                      <input
+                        type="text"
+                        id="material"
+                        name="material"
+                        value={formData.material}
+                        onChange={handleChange}
+                        placeholder="如：铝合金、硅、陶瓷…"
+                        className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="precision" className="block text-sm font-medium mb-2">
+                        精度 / 质量指标
+                      </label>
+                      <input
+                        type="text"
+                        id="precision"
+                        name="precision"
+                        value={formData.precision}
+                        onChange={handleChange}
+                        placeholder="如：±2 μm、Ra、HAZ…"
+                        className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label htmlFor="cycle" className="block text-sm font-medium mb-2">
+                      预算与期望周期
+                    </label>
+                    <select
+                      id="cycle"
+                      name="cycle"
+                      value={formData.cycle}
+                      onChange={handleChange}
+                      className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors cursor-pointer"
                     >
-                      项目描述 *
+                      <option value="">请选择</option>
+                      <option value="q1">本季度内试点</option>
+                      <option value="half">半年内量产导入</option>
+                      <option value="year">年度规划 / 科研合作</option>
+                      <option value="other">其他（请在描述中说明）</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium mb-2">
+                      补充说明 *
                     </label>
                     <textarea
                       id="message"
@@ -236,8 +248,8 @@ export default function ContactPage() {
                       value={formData.message}
                       onChange={handleChange}
                       required
-                      rows={5}
-                      placeholder="请描述您的项目需求，包括项目类型、目标、时间要求等..."
+                      rows={4}
+                      placeholder="产线节拍、样品数量、保密要求、希望对接的角色等"
                       className="w-full px-4 py-3 bg-background border border-border rounded-lg text-sm focus:outline-none focus:border-brand transition-colors resize-none"
                     />
                   </div>
@@ -254,17 +266,20 @@ export default function ContactPage() {
                     {isSubmitting ? (
                       <>
                         <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        发送中...
+                        发送中…
                       </>
                     ) : isSubmitted ? (
-                      "已发送！我会尽快回复您"
+                      "已记录（演示）"
                     ) : (
                       <>
                         <Send className="w-4 h-4" />
-                        发送消息
+                        提交咨询
                       </>
                     )}
                   </button>
+                  <p className="text-xs text-muted-foreground font-light">
+                    提交为前端演示，未接后端；上线时请接入 CRM 或邮件服务。
+                  </p>
                 </div>
               </form>
             </div>
@@ -272,30 +287,36 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <section className="section bg-card/50">
+      <section id="support" className="section bg-card/50 border-y border-border-light scroll-mt-28">
         <div className="container-custom">
-          <div className="text-center mb-16">
-            <span className="animate-on-scroll text-xs tracking-widest uppercase text-brand font-medium">
-              常见问题
-            </span>
-            <h2 className="animate-on-scroll delay-100 font-serif text-3xl md:text-4xl font-medium mt-4">
-              您可能想了解
-            </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+            <div>
+              <h2 className="font-serif text-2xl font-medium mb-4">技术支持</h2>
+              <p className="text-sm text-muted-foreground font-light leading-relaxed mb-4">
+                知识库、FAQ、固件升级包与远程诊断入口（占位）。账号权限与 OTA 通道就绪后替换为真实链接。
+              </p>
+            </div>
+            <div>
+              <h2 className="font-serif text-2xl font-medium mb-4">合作入口</h2>
+              <ul className="text-sm text-muted-foreground font-light space-y-2">
+                <li>· 高校联合实验室</li>
+                <li>· 供应链创新伙伴（光学件、传感、运动平台）</li>
+                <li>· 工艺开发合作（NDA + 阶段门评审）</li>
+              </ul>
+            </div>
           </div>
 
-          <div className="max-w-3xl mx-auto space-y-6">
+          <h2 className="animate-on-scroll font-serif text-2xl font-medium mb-8 text-center">
+            常见问题
+          </h2>
+          <div className="max-w-3xl mx-auto space-y-5">
             {faqs.map((faq, index) => (
               <div
                 key={faq.q}
-                className={`animate-on-scroll delay-${(index + 1) * 100} bg-background rounded-xl p-6 md:p-8`}
+                className={`animate-on-scroll delay-${(index + 1) * 100} bg-background rounded-xl p-6 md:p-8 border border-border-light`}
               >
-                <h3 className="font-serif text-lg font-medium mb-3">
-                  {faq.q}
-                </h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed">
-                  {faq.a}
-                </p>
+                <h3 className="font-serif text-lg font-medium mb-3">{faq.q}</h3>
+                <p className="text-sm text-muted-foreground font-light leading-relaxed">{faq.a}</p>
               </div>
             ))}
           </div>
@@ -307,23 +328,19 @@ export default function ContactPage() {
 
 const faqs = [
   {
-    q: "设计项目的周期一般是多久？",
-    a: "根据项目类型和复杂度而定。简单的品牌设计通常需要 4-6 周，完整的品牌系统设计可能需要 8-12 周或更长时间。我会在项目启动前提供详细的时间计划表。",
+    q: "是否提供样机试用与联合实验室？",
+    a: "视行业与场景匹配度，可提供样件试制与共建试点线；具体 NRE 与里程碑在商务与技术评审后书面约定。",
   },
   {
-    q: "项目合作的付款方式是怎样的？",
-    a: "通常采用「首付 + 阶段款」的付款模式。首付 50% 启动项目，中间阶段 30%，交付完成 20%。具体会根据项目规模和合作方式进行灵活调整。",
+    q: "AI 策略包如何更新？是否支持二次开发？",
+    a: "工艺与模型以版本化资产交付，支持在沙箱内二次开发与灰度发布；接口说明见 API 文档（上线后提供链接）。",
   },
   {
-    q: "可以只做部分设计服务吗？",
-    a: "当然可以。我提供灵活的服务组合，您可以根据实际需求选择 LOGO 设计、VI 系统、包装设计等单项服务，也可以打包选择全套品牌服务。",
+    q: "数据与工艺信息的保密如何保障？",
+    a: "默认签署 NDA；敏感数据可本地推理与脱敏上传；联合课题的知识产权与署名规则事前单独约定。",
   },
   {
-    q: "如果对设计稿不满意怎么办？",
-    a: "每个设计阶段都会充分沟通确认方向。如果确实需要调整，我会认真听取反馈并进行修改。通常在合同约定的修改次数内都是免费的。",
-  },
-  {
-    q: "异地合作可以吗？",
-    a: "完全没问题。目前我的客户遍布全国各地，甚至海外。通过线上会议、即时通讯和云端协作工具，我们可以高效完成任何距离的合作。",
+    q: "交付周期与验收口径？",
+    a: "依机型与定制深度而定；验收以双方签署的指标与样件报告为准，避免口头承诺与指标漂移。",
   },
 ];
