@@ -6,6 +6,8 @@ import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 export default function CareersPage() {
   useScrollReveal();
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
+  const isGithubPages = window.location.hostname.endsWith("github.io");
+  const formSubmitAction = "https://formsubmit.co/1335929010@qq.com";
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,9 +23,6 @@ export default function CareersPage() {
     if (apiBaseUrl) {
       return `${apiBaseUrl.replace(/\/$/, "")}/api/resume-submissions`;
     }
-    if (window.location.hostname.endsWith("github.io")) {
-      return "https://formsubmit.co/ajax/1335929010@qq.com";
-    }
     return "/api/resume-submissions";
   };
 
@@ -37,36 +36,34 @@ export default function CareersPage() {
   };
 
   const handleResumeSubmit = async (e: FormEvent) => {
-    e.preventDefault();
     setSubmitError("");
     setIsSubmitting(true);
 
     if (!resumeFile) {
+      e.preventDefault();
       setSubmitError("请上传 PDF 或 Word 简历文件");
       setIsSubmitting(false);
       return;
     }
 
+    if (isGithubPages) {
+      // GitHub Pages 走原生 multipart form 提交到 FormSubmit，确保附件可达
+      window.setTimeout(() => {
+        setIsSubmitting(false);
+        setIsSubmitted(true);
+      }, 800);
+      return;
+    }
+
+    e.preventDefault();
     const submitTarget = resolveSubmitTarget();
-    const isFormSubmit = submitTarget.includes("formsubmit.co/ajax/");
 
     const body = new FormData();
     body.append("name", formData.name);
     body.append("email", formData.email);
     body.append("position", formData.position);
     body.append("message", formData.message);
-
-    if (isFormSubmit) {
-      // FormSubmit 文件字段建议使用 attachment，才能以附件形式投递到邮箱
-      body.append("attachment", resumeFile);
-      body.append("_subject", `【简历投递】${formData.position} - ${formData.name}`);
-      body.append("_cc", "fccgccn@gmail.com");
-      body.append("_captcha", "false");
-      body.append("_template", "table");
-      body.append("_autoresponse", "已收到你的简历投递，我们会尽快联系你。");
-    } else {
-      body.append("resume", resumeFile);
-    }
+    body.append("resume", resumeFile);
 
     try {
       const response = await fetch(submitTarget, {
@@ -172,7 +169,26 @@ export default function CareersPage() {
               <span className="text-foreground"> fccgccn@gmail.com</span>。
             </p>
 
-            <form onSubmit={handleResumeSubmit} className="space-y-5">
+            <form
+              onSubmit={handleResumeSubmit}
+              action={isGithubPages ? formSubmitAction : undefined}
+              method={isGithubPages ? "POST" : undefined}
+              encType={isGithubPages ? "multipart/form-data" : undefined}
+              target={isGithubPages ? "resume-submit-frame" : undefined}
+              className="space-y-5"
+            >
+              {isGithubPages ? (
+                <>
+                  <input
+                    type="hidden"
+                    name="_subject"
+                    value={`【简历投递】${formData.position || "未填写岗位"} - ${formData.name || "未填写姓名"}`}
+                  />
+                  <input type="hidden" name="_cc" value="fccgccn@gmail.com" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                </>
+              ) : null}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="resume-name" className="block text-sm font-medium mb-2">
@@ -226,7 +242,7 @@ export default function CareersPage() {
                 </label>
                 <input
                   id="resume-file"
-                  name="resume"
+                  name={isGithubPages ? "attachment" : "resume"}
                   type="file"
                   onChange={handleFileChange}
                   accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
@@ -276,6 +292,7 @@ export default function CareersPage() {
               ) : null}
               {submitError ? <p className="text-sm text-destructive">{submitError}</p> : null}
             </form>
+            {isGithubPages ? <iframe name="resume-submit-frame" className="hidden" title="resume-submit-frame" /> : null}
           </div>
 
           <div className="text-center mt-10">
