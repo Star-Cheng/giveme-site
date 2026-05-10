@@ -11,7 +11,7 @@ export default function TechnologyPage() {
       {/* HERO */}
       <section className="pb-16">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <p className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase mb-4">核心技术</p>
+          <p className="text-xs text-[#185abd] font-medium tracking-wider uppercase mb-4">核心技术</p>
           <h1 className="text-4xl md:text-5xl font-bold text-[#0f172a] mb-6 leading-tight">疾 · 石 · 智能</h1>
           <p className="text-sm text-[#64748b] font-light max-w-2xl leading-relaxed">
             飞秒激光技术、硬脆材料工艺与智能控制系统的垂直整合。三个维度，一个目标——用最快的速度，加工最硬的东西，输出最稳的品质。
@@ -22,7 +22,7 @@ export default function TechnologyPage() {
       {/* 三大支柱 */}
       {[
         {
-          title: "疾", en: "Ultra Speed", color: "text-[#7c3aed]", bg: "bg-[#f5f3ff]",
+          title: "疾", en: "Ultra Speed", color: "text-[#185abd]", bg: "bg-[#eff4fb]",
           desc: "飞秒 / 皮秒级超快激光脉冲生成与控制。在千万亿分之一秒的时间窗口内，完成对光子能量的精密调制。",
           img: "gen-tech-speed-0.jpg",
           quote: "一飞秒，是一秒的千万亿分之一。在这个时间尺度里，光只走了 0.3 微米。我们控制的，是时间的极限。",
@@ -46,7 +46,7 @@ export default function TechnologyPage() {
           ],
         },
         {
-          title: "智能", en: "Intelligent", color: "text-[#7c3aed]", bg: "bg-[#f5f3ff]",
+          title: "智能", en: "Intelligent", color: "text-[#185abd]", bg: "bg-[#eff4fb]",
           desc: "把极致的动态，交给极致的算法。智能控制系统是实现疾与石统一的唯一桥梁。",
           img: "gen-tech-ai-0.jpg",
           quote: "智能，是疾与石之间唯一的桥梁。",
@@ -120,7 +120,7 @@ export default function TechnologyPage() {
       </section>
 
       <section className="pb-20 text-center">
-        <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#7c3aed] transition-colors">
+        <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#185abd] transition-colors">
           获取详细技术资料 <ArrowRight className="w-4 h-4" />
         </Link>
       </section>

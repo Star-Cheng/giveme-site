@@ -13,11 +13,11 @@ export default function ProductsPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase mb-4">产品矩阵</p>
+              <p className="text-xs text-[#185abd] font-medium tracking-wider uppercase mb-4">产品矩阵</p>
               <h1 className="text-4xl md:text-5xl font-bold text-[#0f172a] mb-6 leading-tight">
                 智能超快激光
                 <br />
-                <span className="text-[#7c3aed]">从基础到极致</span>
+                <span className="text-[#185abd]">从基础到极致</span>
               </h1>
               <p className="text-sm text-[#64748b] font-light leading-relaxed max-w-lg">
                 三大激光系列、一个控制系统平台、完整的光学组件与行业解决方案。每个产品遵循统一命名公式：疾石科技 · [系列] [类别] [型号]。
@@ -41,7 +41,7 @@ export default function ProductsPage() {
                   <img src={`${base}${s.img}`} alt={s.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
                 <div className="p-6">
-                  <span className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase">{s.tier}</span>
+                  <span className="text-xs text-[#185abd] font-medium tracking-wider uppercase">{s.tier}</span>
                   <h3 className="text-xl font-bold text-[#0f172a] mt-2 mb-1">{s.name}</h3>
                   <p className="text-xs text-[#64748b] mb-3">{s.english} {s.model}</p>
                   <p className="text-sm text-[#64748b] font-light leading-relaxed mb-4">{s.desc}</p>
@@ -71,7 +71,7 @@ export default function ProductsPage() {
             {rockCore.map((rc) => (
               <div key={rc.name} className="p-5 rounded-2xl bg-[#f8fafc] border border-[#f1f5f9]">
                 <p className="text-sm font-bold text-[#0f172a] mb-1">{rc.name}</p>
-                <p className="text-[10px] text-[#7c3aed] font-medium tracking-wider uppercase mb-2">{rc.english}</p>
+                <p className="text-[10px] text-[#185abd] font-medium tracking-wider uppercase mb-2">{rc.english}</p>
                 <p className="text-xs text-[#64748b] font-light leading-relaxed">{rc.desc}</p>
               </div>
             ))}
@@ -103,7 +103,7 @@ export default function ProductsPage() {
                 ].map((r) => (
                   <tr key={r[0]} className="border-b border-[#f1f5f9] last:border-0">
                     <td className="p-4 font-medium text-[#0f172a]">{r[0]}</td>
-                    <td className="p-4 text-[#7c3aed] font-medium">{r[1]}</td>
+                    <td className="p-4 text-[#185abd] font-medium">{r[1]}</td>
                     <td className="p-4 text-[#64748b]">{r[2]}</td>
                   </tr>
                 ))}
@@ -115,7 +115,7 @@ export default function ProductsPage() {
 
       {/* CTA */}
       <section className="pb-20 text-center">
-        <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#7c3aed] transition-colors">
+        <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#185abd] transition-colors">
           预约技术交流
           <ArrowRight className="w-4 h-4" />
         </Link>

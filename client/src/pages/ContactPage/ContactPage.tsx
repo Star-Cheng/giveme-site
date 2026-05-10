@@ -45,11 +45,11 @@ export default function ContactPage() {
           ================================================================ */}
       <section className="pb-16">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <p className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase mb-4">服务与支持</p>
+          <p className="text-xs text-[#185abd] font-medium tracking-wider uppercase mb-4">服务与支持</p>
           <h1 className="text-4xl md:text-5xl font-bold text-[#0f172a] mb-4 leading-tight">
             欢迎使用疾石科技
             <br />
-            <span className="text-[#7c3aed]">服务与支持</span>
+            <span className="text-[#185abd]">服务与支持</span>
           </h1>
           <p className="text-sm text-[#64748b] font-light max-w-lg leading-relaxed">
             技术资料下载、售后支持、商务咨询与开放合作——我们随时为您服务。
@@ -75,8 +75,8 @@ export default function ContactPage() {
                 to={svc.href}
                 className={`animate-on-scroll delay-${(i + 1) * 100} group p-6 rounded-2xl bg-[#f8fafc] border border-[#f1f5f9] hover:border-[#cbd5e1] hover:shadow-sm transition-all`}
               >
-                <div className="w-10 h-10 rounded-xl bg-[#f5f3ff] flex items-center justify-center mb-4 group-hover:bg-[#7c3aed] transition-colors">
-                  <svc.icon className="w-5 h-5 text-[#7c3aed] group-hover:text-white transition-colors" />
+                <div className="w-10 h-10 rounded-xl bg-[#eff4fb] flex items-center justify-center mb-4 group-hover:bg-[#185abd] transition-colors">
+                  <svc.icon className="w-5 h-5 text-[#185abd] group-hover:text-white transition-colors" />
                 </div>
                 <h3 className="font-bold text-[#0f172a] mb-2">{svc.title}</h3>
                 <p className="text-xs text-[#64748b] font-light">{svc.desc}</p>
@@ -98,7 +98,7 @@ export default function ContactPage() {
               <div className="space-y-6">
                 <div>
                   <p className="text-xs text-[#94a3b8] font-medium tracking-wider uppercase mb-1">邮箱</p>
-                  <a href="mailto:fccgccn@gmail.com" className="text-sm text-[#7c3aed] hover:underline">fccgccn@gmail.com</a>
+                  <a href="mailto:fccgccn@gmail.com" className="text-sm text-[#185abd] hover:underline">fccgccn@gmail.com</a>
                 </div>
                 <div>
                   <p className="text-xs text-[#94a3b8] font-medium tracking-wider uppercase mb-1">地址</p>
@@ -118,24 +118,24 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-[#0f172a] mb-1.5">姓名 *</label>
-                    <input name="name" value={formData.name} onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))} required className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#7c3aed]" placeholder="您的姓名" />
+                    <input name="name" value={formData.name} onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))} required className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#185abd]" placeholder="您的姓名" />
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-[#0f172a] mb-1.5">邮箱 *</label>
-                    <input name="email" type="email" value={formData.email} onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))} required className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#7c3aed]" placeholder="your@email.com" />
+                    <input name="email" type="email" value={formData.email} onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))} required className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#185abd]" placeholder="your@email.com" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-[#0f172a] mb-1.5">公司 / 机构</label>
-                  <input name="company" value={formData.company} onChange={(e) => setFormData(p => ({ ...p, company: e.target.value }))} className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#7c3aed]" placeholder="公司或机构名称" />
+                  <input name="company" value={formData.company} onChange={(e) => setFormData(p => ({ ...p, company: e.target.value }))} className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#185abd]" placeholder="公司或机构名称" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-[#0f172a] mb-1.5">需求说明 *</label>
-                  <textarea name="message" value={formData.message} onChange={(e) => setFormData(p => ({ ...p, message: e.target.value }))} required rows={4} className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#7c3aed] resize-none" placeholder="请描述您的加工需求、材料、精度要求等" />
+                  <textarea name="message" value={formData.message} onChange={(e) => setFormData(p => ({ ...p, message: e.target.value }))} required rows={4} className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#185abd] resize-none" placeholder="请描述您的加工需求、材料、精度要求等" />
                 </div>
                 <button type="submit" disabled={isSubmitting || isSubmitted}
                   className={`w-full py-3.5 rounded-lg font-medium text-sm flex items-center justify-center gap-2 transition-all ${
-                    isSubmitted ? "bg-[#16a34a] text-white" : "bg-[#0f172a] text-white hover:bg-[#7c3aed]"
+                    isSubmitted ? "bg-[#16a34a] text-white" : "bg-[#0f172a] text-white hover:bg-[#185abd]"
                   } disabled:opacity-70`}
                 >
                   {isSubmitting ? "发送中…" : isSubmitted ? "已提交" : <><Send className="w-4 h-4" />提交咨询</>}

@@ -95,7 +95,7 @@ export function Layout({ children }: { children: ReactNode }) {
               to={link.path}
               className={({ isActive }) =>
                 `text-2xl font-medium transition-all duration-300 ${
-                  isActive ? "text-[#7c3aed]" : "text-[#0f172a]"
+                  isActive ? "text-[#185abd]" : "text-[#0f172a]"
                 } ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`
               }
               style={{ transitionDelay: `${index * 40}ms` }}
