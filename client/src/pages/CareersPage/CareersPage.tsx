@@ -8,8 +8,8 @@ export default function CareersPage() {
   useScrollReveal();
   const { t } = useLang();
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
-  const isGithubPages = window.location.hostname.endsWith("github.io");
-  const shouldUseFormSubmit = !apiBaseUrl && isGithubPages;
+  // 静态托管（GitHub Pages / 自定义域名）→ FormSubmit 邮件中继
+  const shouldUseFormSubmit = !apiBaseUrl;
   const [formData, setFormData] = useState({ name: "", email: "", position: "", message: "" });
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);

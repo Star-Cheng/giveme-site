@@ -15,8 +15,8 @@ export default function ContactPage() {
 
   const resolveSubmitTarget = () => {
     if (apiBaseUrl) return `${apiBaseUrl.replace(/\/$/, "")}/api/contact-inquiries`;
-    if (window.location.hostname.endsWith("github.io")) return "https://formsubmit.co/ajax/ur@ultrarock.net";
-    return "/api/contact-inquiries";
+    // 静态托管（GitHub Pages / 自定义域名）→ FormSubmit 邮件中继
+    return "https://formsubmit.co/ajax/ur@ultrarock.net";
   };
 
   const handleSubmit = async (e: FormEvent) => {
