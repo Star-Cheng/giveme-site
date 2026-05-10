@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { useLang } from "@/i18n/LangContext";
 
-const navKeys = ["products", "technology", "solutions", "about"] as const;
+const navKeys = ["products", "technology", "solutions", "about", "careers"] as const;
 
 export function Layout({ children }: { children: ReactNode }) {
   const { lang, setLang, t } = useLang();
