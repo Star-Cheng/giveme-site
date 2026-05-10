@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Zap, Shield, Cpu } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function HomePage() {
@@ -121,14 +121,14 @@ export default function HomePage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
             {[
-              { icon: "⚡", title: "疾 · Ultra Speed", body: "一飞秒，是一秒的千万亿分之一。在这个时间尺度里，光只走了 0.3 微米。我们控制的，是时间的极限。" },
-              { icon: "🪨", title: "石 · Rock Solid", body: "当别人在谈论能做多快，我们在证明能做多稳。无微裂纹、无热影响、无材料损伤——这是我们的标准。" },
-              { icon: "◎", title: "智能 · Intelligent", body: "把极致的动态，交给极致的算法。智能，是疾与石之间唯一的桥梁。" },
-            ].map((item, i) => (
-              <div key={item.title} className={`animate-on-scroll delay-${(i + 1) * 100}`}>
-                <div className="text-2xl mb-4">{item.icon}</div>
-                <h3 className="text-lg font-bold text-[#0f172a] mb-3">{item.title}</h3>
-                <p className="text-sm text-[#64748b] font-light leading-relaxed">{item.body}</p>
+              { Icon: Zap, title: "疾 · Ultra Speed", body: "一飞秒，是一秒的千万亿分之一。在这个时间尺度里，光只走了 0.3 微米。我们控制的，是时间的极限。" },
+              { Icon: Shield, title: "石 · Rock Solid", body: "当别人在谈论能做多快，我们在证明能做多稳。无微裂纹、无热影响、无材料损伤——这是我们的标准。" },
+              { Icon: Cpu, title: "智能 · Intelligent", body: "把极致的动态，交给极致的算法。智能，是疾与石之间唯一的桥梁。" },
+            ].map(({ Icon, title, body }, i) => (
+              <div key={title} className={`animate-on-scroll delay-${(i + 1) * 100}`}>
+                <Icon className="w-6 h-6 text-[#0f172a] mb-4" />
+                <h3 className="text-lg font-bold text-[#0f172a] mb-3">{title}</h3>
+                <p className="text-sm text-[#64748b] font-light leading-relaxed">{body}</p>
               </div>
             ))}
           </div>
