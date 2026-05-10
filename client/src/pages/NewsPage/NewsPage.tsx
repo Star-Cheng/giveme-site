@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, BookOpen, Calendar } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { useLang } from "@/i18n/LangContext";
 
 export default function NewsPage() {
   useScrollReveal();
+  const { t } = useLang();
 
   return (
     <div className="pt-28">
@@ -11,13 +13,13 @@ export default function NewsPage() {
       <section className="section pb-12">
         <div className="container-custom">
           <span className="animate-hero text-xs tracking-[0.2em] uppercase text-muted-foreground font-medium">
-            动态与洞察
+            {t("news.hero.badge")}
           </span>
           <h1 className="animate-hero delay-100 font-serif text-4xl md:text-5xl font-medium mt-4 mb-6 leading-tight">
-            技术深潜 · 行业观察
+            {t("news.hero.title")}
           </h1>
           <p className="animate-hero delay-200 text-muted-foreground font-light max-w-2xl leading-relaxed text-sm md:text-base">
-            飞秒激光技术前沿、硬脆材料工艺探索、行业趋势与疾石动态。
+            {t("news.hero.desc")}
           </p>
         </div>
       </section>
@@ -27,18 +29,18 @@ export default function NewsPage() {
         <div className="container-custom">
           <h2 className="animate-on-scroll font-serif text-2xl font-medium mb-10 flex items-center gap-2">
             <BookOpen className="w-5 h-5 text-accent" />
-            精选文章
+            {t("news.articles")}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {articles.map((a, i) => (
               <article
-                key={a.title}
+                key={a.titleKey}
                 className={`animate-on-scroll delay-${(i + 1) * 100} p-6 rounded-xl border border-border bg-background flex flex-col card-hover`}
               >
-                <span className="text-xs text-accent font-medium uppercase tracking-wider mb-2">{a.tag}</span>
-                <h3 className="font-serif text-lg font-medium mb-3">{a.title}</h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed flex-1">{a.excerpt}</p>
-                <span className="text-xs text-muted-foreground mt-4 font-light">正文链接可对接 CMS</span>
+                <span className="text-xs text-accent font-medium uppercase tracking-wider mb-2">{t(a.tagKey)}</span>
+                <h3 className="font-serif text-lg font-medium mb-3">{t(a.titleKey)}</h3>
+                <p className="text-sm text-muted-foreground font-light leading-relaxed flex-1">{t(a.excerptKey)}</p>
+                <span className="text-xs text-muted-foreground mt-4 font-light">{t("news.articles.link")}</span>
               </article>
             ))}
           </div>
@@ -50,16 +52,16 @@ export default function NewsPage() {
         <div className="container-custom max-w-2xl mx-auto">
           <h2 className="animate-on-scroll font-serif text-2xl font-medium mb-8 flex items-center gap-2 justify-center">
             <Calendar className="w-5 h-5 text-accent" />
-            活动日历
+            {t("news.events")}
           </h2>
           <div className="animate-on-scroll delay-100 space-y-3">
             {events.map((e) => (
               <div
-                key={e.title}
+                key={e.titleKey}
                 className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-4 px-5 rounded-xl bg-card border border-border-light text-sm"
               >
-                <span className="font-medium text-foreground">{e.title}</span>
-                <span className="text-muted-foreground font-light">{e.when}</span>
+                <span className="font-medium text-foreground">{t(e.titleKey)}</span>
+                <span className="text-muted-foreground font-light">{t(e.whenKey)}</span>
               </div>
             ))}
           </div>
@@ -70,7 +72,7 @@ export default function NewsPage() {
       <section className="section pb-24">
         <div className="container-custom text-center">
           <Link to="/contact" className="btn-primary group inline-flex">
-            订阅更新与合作咨询
+            {t("news.cta")}
             <ArrowRight className="w-4 h-4 arrow-icon" />
           </Link>
         </div>
@@ -81,24 +83,24 @@ export default function NewsPage() {
 
 const articles = [
   {
-    tag: "技术深潜",
-    title: "飞秒激光冷加工：为什么热影响区为零",
-    excerpt: "从脉冲宽度、能量沉积时间到材料去除机制的完整解析，理解飞秒加工与传统激光的本质区别。",
+    tagKey: "news.article.1.tag",
+    titleKey: "news.article.1.title",
+    excerptKey: "news.article.1.excerpt",
   },
   {
-    tag: "行业观察",
-    title: "硬脆材料精密加工的下一个十年",
-    excerpt: "蓝宝石、金刚石、碳化硅——这些材料正在定义半导体与光学的未来，工艺能力决定产业天花板。",
+    tagKey: "news.article.2.tag",
+    titleKey: "news.article.2.title",
+    excerptKey: "news.article.2.excerpt",
   },
   {
-    tag: "疾石动态",
-    title: "开放实验室首批课题启动",
-    excerpt: "与高校及产业伙伴共建工艺窗口，推动飞秒加工从实验室到产线的标准化。",
+    tagKey: "news.article.3.tag",
+    titleKey: "news.article.3.title",
+    excerptKey: "news.article.3.excerpt",
   },
 ];
 
 const events = [
-  { title: "线上技术沙龙：飞秒激光入门", when: "每月滚动" },
-  { title: "线下开放日 / 实验室参观", when: "每季" },
-  { title: "行业展会与学术会议", when: "全年" },
+  { titleKey: "news.event.1.title", whenKey: "news.event.1.when" },
+  { titleKey: "news.event.2.title", whenKey: "news.event.2.when" },
+  { titleKey: "news.event.3.title", whenKey: "news.event.3.when" },
 ];

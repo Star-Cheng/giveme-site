@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
+import { useLang } from "@/i18n/LangContext";
 
 export default function ProductsPage() {
   useScrollReveal();
+  const { t } = useLang();
   const base = import.meta.env.BASE_URL;
 
   return (
@@ -13,14 +15,14 @@ export default function ProductsPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-xs text-[#185abd] font-medium tracking-wider uppercase mb-4">产品矩阵</p>
+              <p className="text-xs text-[#185abd] font-medium tracking-wider uppercase mb-4">{t("products.hero.badge")}</p>
               <h1 className="text-4xl md:text-5xl font-bold text-[#0f172a] mb-6 leading-tight">
-                智能超快激光
+                {t("products.hero.title")}
                 <br />
-                <span className="text-[#185abd]">从基础到极致</span>
+                <span className="text-[#185abd]">{t("products.hero.subtitle")}</span>
               </h1>
               <p className="text-sm text-[#64748b] font-light leading-relaxed max-w-lg">
-                三大激光系列、一个控制系统平台、完整的光学组件与行业解决方案。每个产品遵循统一命名公式：疾石科技 · [系列] [类别] [型号]。
+                {t("products.hero.desc")}
               </p>
             </div>
             <div className="aspect-video rounded-2xl overflow-hidden bg-[#f1f5f9]">
@@ -33,7 +35,7 @@ export default function ProductsPage() {
       {/* 三大激光系列 — Unitree 产品卡片风格 */}
       <section className="py-16 bg-[#f8fafc]">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <h2 className="text-2xl font-bold text-[#0f172a] mb-10">激光器系列</h2>
+          <h2 className="text-2xl font-bold text-[#0f172a] mb-10">{t("products.lasers")}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {laserSeries.map((s, i) => (
               <div key={s.name} className={`animate-on-scroll delay-${(i + 1) * 100} bg-white rounded-2xl overflow-hidden border border-[#f1f5f9]`}>
@@ -41,10 +43,10 @@ export default function ProductsPage() {
                   <img src={`${base}${s.img}`} alt={s.name} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
                 </div>
                 <div className="p-6">
-                  <span className="text-xs text-[#185abd] font-medium tracking-wider uppercase">{s.tier}</span>
+                  <span className="text-xs text-[#185abd] font-medium tracking-wider uppercase">{t(s.tierKey)}</span>
                   <h3 className="text-xl font-bold text-[#0f172a] mt-2 mb-1">{s.name}</h3>
                   <p className="text-xs text-[#64748b] mb-3">{s.english} {s.model}</p>
-                  <p className="text-sm text-[#64748b] font-light leading-relaxed mb-4">{s.desc}</p>
+                  <p className="text-sm text-[#64748b] font-light leading-relaxed mb-4">{t(s.descKey)}</p>
                   <table className="w-full text-xs">
                     <tbody>
                       {s.specs.slice(0, 3).map((r) => (
@@ -65,8 +67,8 @@ export default function ProductsPage() {
       {/* RockCore 石核 */}
       <section className="py-16">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <h2 className="text-2xl font-bold text-[#0f172a] mb-2">RockCore 石核</h2>
-          <p className="text-sm text-[#64748b] font-light mb-10">统一的智能控制平台。所有激光系列共享同一套 RockCore 架构。</p>
+          <h2 className="text-2xl font-bold text-[#0f172a] mb-2">{t("products.rockcore.title")}</h2>
+          <p className="text-sm text-[#64748b] font-light mb-10">{t("products.rockcore.desc")}</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {rockCore.map((rc) => (
               <div key={rc.name} className="p-5 rounded-2xl bg-[#f8fafc] border border-[#f1f5f9]">
@@ -82,26 +84,26 @@ export default function ProductsPage() {
       {/* 命名体系 */}
       <section className="py-16 bg-[#f8fafc]">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <h2 className="text-2xl font-bold text-[#0f172a] mb-10">命名体系</h2>
+          <h2 className="text-2xl font-bold text-[#0f172a] mb-10">{t("products.naming.title")}</h2>
           <div className="overflow-x-auto rounded-xl border border-[#e2e8f0]">
             <table className="w-full text-sm">
               <thead>
                 <tr className="bg-[#f8fafc] border-b border-[#e2e8f0]">
-                  <th className="p-4 text-left text-xs font-medium text-[#64748b]">产品类别</th>
-                  <th className="p-4 text-left text-xs font-medium text-[#64748b]">后缀代码</th>
-                  <th className="p-4 text-left text-xs font-medium text-[#64748b]">示例 (中高端 F-1)</th>
+                  <th className="p-4 text-left text-xs font-medium text-[#64748b]">{t("products.naming.cat.1")}</th>
+                  <th className="p-4 text-left text-xs font-medium text-[#64748b]">{t("products.naming.code.1")}</th>
+                  <th className="p-4 text-left text-xs font-medium text-[#64748b]">{t("products.naming.ex.1")}</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  ["激光器", "Laser", "FluxBeam Laser F-1"],
-                  ["主机平台", "Platform", "FluxBeam Platform F-1"],
-                  ["加工头 / 振镜", "Head / Optics", "FluxBeam Head F-1"],
-                  ["核心模块", "Module", "FluxBeam Module F-1"],
-                  ["控制系统", "RockCore", "RockCore VisionPack"],
-                  ["行业方案", "Sol.", "FluxBeam Sapphire Sol. F-1"],
-                ].map((r) => (
-                  <tr key={r[0]} className="border-b border-[#f1f5f9] last:border-0">
+                  [t("products.naming.cat.1"), t("products.naming.code.1"), t("products.naming.ex.1")],
+                  [t("products.naming.cat.2"), t("products.naming.code.2"), t("products.naming.ex.2")],
+                  [t("products.naming.cat.3"), t("products.naming.code.3"), t("products.naming.ex.3")],
+                  [t("products.naming.cat.4"), t("products.naming.code.4"), t("products.naming.ex.4")],
+                  [t("products.naming.cat.5"), t("products.naming.code.5"), t("products.naming.ex.5")],
+                  [t("products.naming.cat.6"), t("products.naming.code.6"), t("products.naming.ex.6")],
+                ].map((r, i) => (
+                  <tr key={i} className="border-b border-[#f1f5f9] last:border-0">
                     <td className="p-4 font-medium text-[#0f172a]">{r[0]}</td>
                     <td className="p-4 text-[#185abd] font-medium">{r[1]}</td>
                     <td className="p-4 text-[#64748b]">{r[2]}</td>
@@ -116,7 +118,7 @@ export default function ProductsPage() {
       {/* CTA */}
       <section className="pb-20 text-center">
         <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#185abd] transition-colors">
-          预约技术交流
+          {t("products.cta")}
           <ArrowRight className="w-4 h-4" />
         </Link>
       </section>
@@ -126,7 +128,12 @@ export default function ProductsPage() {
 
 const laserSeries = [
   {
-    tier: "基础款", name: "磐石系列", english: "RockSolid Laser", model: "R-1",
+    tierKey: "products.series.rocksolid.tier",
+    tier: "基础款",
+    name: "磐石系列",
+    english: "RockSolid Laser",
+    model: "R-1",
+    descKey: "products.series.rocksolid.desc",
     desc: "面向工业量产场景的可靠基础。飞秒冷加工覆盖主流硬脆材料，稳定、耐用、易集成。",
     img: "gen-product-rocksolid-0.jpg",
     specs: [
@@ -137,7 +144,12 @@ const laserSeries = [
     ],
   },
   {
-    tier: "中高端", name: "砺流系列", english: "FluxBeam Laser", model: "F-1",
+    tierKey: "products.series.fluxbeam.tier",
+    tier: "中高端",
+    name: "砺流系列",
+    english: "FluxBeam Laser",
+    model: "F-1",
+    descKey: "products.series.fluxbeam.desc",
     desc: "为复杂工艺而生。更高精度、更快节拍、AI 自适应多材料混合产线。",
     img: "gen-product-fluxbeam-0.jpg",
     specs: [
@@ -148,7 +160,12 @@ const laserSeries = [
     ],
   },
   {
-    tier: "高端", name: "疾光系列", english: "UltraLight Laser", model: "U-1",
+    tierKey: "products.series.ultralight.tier",
+    tier: "高端",
+    name: "疾光系列",
+    english: "UltraLight Laser",
+    model: "U-1",
+    descKey: "products.series.ultralight.desc",
     desc: "极限精度旗舰。逼近衍射极限的光束质量，面向半导体前沿与科研定制。",
     img: "gen-product-ultralight-0.jpg",
     specs: [

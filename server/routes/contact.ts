@@ -12,7 +12,7 @@ type ContactInquiryPayload = {
   message: string;
 };
 
-const FALLBACK_RECEIVER_EMAILS = ["1335929010@qq.com", "fccgccn@gmail.com"];
+const FALLBACK_RECEIVER_EMAILS = ["ur@ultrarock.net", "ur@ultrarock.net"];
 
 function getMailerTransport() {
   const host = process.env.SMTP_HOST || "smtp.qq.com";

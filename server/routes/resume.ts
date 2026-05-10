@@ -3,7 +3,7 @@ import { Router, type Request, type Response } from "express";
 import multer from "multer";
 import nodemailer from "nodemailer";
 
-const FALLBACK_RECEIVER_EMAILS = ["1335929010@qq.com", "fccgccn@gmail.com"];
+const FALLBACK_RECEIVER_EMAILS = ["ur@ultrarock.net", "ur@ultrarock.net"];
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 const ALLOWED_EXTENSIONS = new Set([".pdf", ".doc", ".docx"]);
 const ALLOWED_MIME_TYPES = new Set([

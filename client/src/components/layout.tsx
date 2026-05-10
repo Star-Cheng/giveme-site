@@ -1,15 +1,12 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
+import { useLang } from "@/i18n/LangContext";
 
-const navLinks = [
-  { path: "/products", label: "产品" },
-  { path: "/technology", label: "技术" },
-  { path: "/solutions", label: "方案" },
-  { path: "/about", label: "关于" },
-];
+const navKeys = ["products", "technology", "solutions", "about"] as const;
 
 export function Layout({ children }: { children: ReactNode }) {
+  const { lang, setLang, t } = useLang();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -46,19 +43,20 @@ export function Layout({ children }: { children: ReactNode }) {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-6">
             <ul className="flex items-center gap-7 text-[13px]">
-              {navLinks.map((link) => (
-                <li key={link.path}>
+              {navKeys.map((k) => (
+                <li key={k}>
                   <NavLink
-                    to={link.path}
+                    to={`/${k}`}
+                    end={k === "products" ? false : undefined}
                     className={({ isActive }) =>
                       `transition-colors ${
                         isActive ? "text-[#0f172a] font-medium" : "text-[#64748b] hover:text-[#0f172a]"
                       }`
                     }
                   >
-                    {link.label}
+                    {t(`nav.${k}`)}
                   </NavLink>
                 </li>
               ))}
@@ -67,8 +65,14 @@ export function Layout({ children }: { children: ReactNode }) {
               to="/contact"
               className="text-[13px] px-5 py-2 rounded-full border border-[#e2e8f0] text-[#0f172a] hover:border-[#0f172a] transition-colors font-medium"
             >
-              联系
+              {t("nav.contact")}
             </Link>
+            <button
+              onClick={() => setLang(lang === "zh" ? "en" : "zh")}
+              className="text-[11px] px-3 py-1.5 rounded-full border border-[#185abd] text-[#185abd] font-medium hover:bg-[#185abd] hover:text-white transition-colors ml-2"
+            >
+              {t("lang.switch")}
+            </button>
           </div>
 
           {/* Mobile Toggle */}
@@ -89,10 +93,10 @@ export function Layout({ children }: { children: ReactNode }) {
         }`}
       >
         <div className="flex flex-col items-center justify-center h-full gap-8 px-6">
-          {navLinks.map((link, index) => (
+          {navKeys.map((k, index) => (
             <NavLink
-              key={link.path}
-              to={link.path}
+              key={k}
+              to={`/${k}`}
               className={({ isActive }) =>
                 `text-2xl font-medium transition-all duration-300 ${
                   isActive ? "text-[#185abd]" : "text-[#0f172a]"
@@ -100,14 +104,14 @@ export function Layout({ children }: { children: ReactNode }) {
               }
               style={{ transitionDelay: `${index * 40}ms` }}
             >
-              {link.label}
+              {t(`nav.${k}`)}
             </NavLink>
           ))}
           <Link
             to="/contact"
             className="mt-4 px-8 py-3 rounded-full border-2 border-[#0f172a] text-[#0f172a] font-medium"
           >
-            联系
+            {t("nav.contact")}
           </Link>
         </div>
       </div>
@@ -128,34 +132,34 @@ export function Layout({ children }: { children: ReactNode }) {
               <p className="text-xs text-[#64748b] mt-2">疾石科技</p>
             </div>
             <div>
-              <p className="text-xs font-medium text-[#0f172a] mb-4">产品</p>
+              <p className="text-xs font-medium text-[#0f172a] mb-4">{t("footer.products")}</p>
               <ul className="space-y-2 text-xs text-[#64748b]">
-                <li>RockSolid R-1</li>
-                <li>FluxBeam F-1</li>
-                <li>UltraLight U-1</li>
-                <li>RockCore 石核</li>
+                <li>{t("footer.product.1")}</li>
+                <li>{t("footer.product.2")}</li>
+                <li>{t("footer.product.3")}</li>
+                <li>{t("footer.product.4")}</li>
               </ul>
             </div>
             <div>
-              <p className="text-xs font-medium text-[#0f172a] mb-4">方案</p>
+              <p className="text-xs font-medium text-[#0f172a] mb-4">{t("footer.solutions")}</p>
               <ul className="space-y-2 text-xs text-[#64748b]">
-                <li>半导体</li>
-                <li>医疗器械</li>
-                <li>航空航天</li>
-                <li>科研定制</li>
+                <li>{t("footer.solution.1")}</li>
+                <li>{t("footer.solution.2")}</li>
+                <li>{t("footer.solution.3")}</li>
+                <li>{t("footer.solution.4")}</li>
               </ul>
             </div>
             <div>
-              <p className="text-xs font-medium text-[#0f172a] mb-4">联系</p>
+              <p className="text-xs font-medium text-[#0f172a] mb-4">{t("footer.contact")}</p>
               <ul className="space-y-2 text-xs text-[#64748b]">
-                <li><a href="mailto:fccgccn@gmail.com" className="hover:text-[#0f172a] transition-colors">fccgccn@gmail.com</a></li>
-                <li><Link to="/contact" className="hover:text-[#0f172a] transition-colors">商务咨询 →</Link></li>
+                <li><a href="mailto:ur@ultrarock.net" className="hover:text-[#0f172a] transition-colors">{t("footer.contact.email")}</a></li>
+                <li><Link to="/contact" className="hover:text-[#0f172a] transition-colors">{t("footer.contact.inquiry")}</Link></li>
               </ul>
             </div>
           </div>
           <div className="mt-14 pt-8 border-t border-[#e2e8f0] flex justify-between text-xs text-[#94a3b8]">
-            <span>© {new Date().getFullYear()} Ultra Rock 疾石科技</span>
-            <span>Ultra Speed. Rock Solid.</span>
+            <span>{t("footer.copyright", { year: String(new Date().getFullYear()) })}</span>
+            <span>{t("footer.slogan")}</span>
           </div>
         </div>
       </footer>
