@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <style>
+    text {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+  </style>
+
+  <!-- 主英文：Ultra Rock  黑体+斜体 纯黑 -->
+  <text 
+    x="400" 
+    y="130" 
+    text-anchor="middle" 
+    dominant-baseline="middle"
+    font-family="Arial, Helvetica, sans-serif" 
+    font-size="120" 
+    font-weight="bold"
+    font-style="italic"
+    fill="#000000"
+  >Ultra Rock</text>
+
+  <!-- 中文：疾石科技 黑体 不斜体 纯黑 -->
+  <text 
+    x="400" 
+    y="230" 
+    text-anchor="middle" 
+    dominant-baseline="middle"
+    font-family="Microsoft YaHei, Source Han Sans SC, sans-serif" 
+    font-size="60" 
+    font-weight="bold"
+    font-style="normal"
+    fill="#000000"
+  >疾石科技</text>
+
+  <!-- Slogan 已改为加粗 -->
+  <text 
+    x="400" 
+    y="310" 
+    text-anchor="middle" 
+    dominant-baseline="middle"
+    font-family="Arial, Helvetica, sans-serif" 
+    font-size="36" 
+    font-weight="bold"
+    font-style="normal"
+    fill="#000000"
+  >Ultra Speed. Rock Solid.</text>
+</svg>

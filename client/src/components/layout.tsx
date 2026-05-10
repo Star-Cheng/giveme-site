@@ -3,119 +3,101 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { path: "/", label: "首页" },
   { path: "/products", label: "产品" },
   { path: "/technology", label: "技术" },
   { path: "/solutions", label: "方案" },
   { path: "/about", label: "关于" },
-  { path: "/news", label: "动态" },
-  { path: "/careers", label: "招聘" },
-  { path: "/contact", label: "联系" },
 ];
 
 export function Layout({ children }: { children: ReactNode }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
-  const logoSrc = `${import.meta.env.BASE_URL}logo.svg`;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => { setIsMobileMenuOpen(false); }, [location]);
   useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location]);
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
   }, [isMobileMenuOpen]);
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
+      {/* Header — Unitree style: clean, logo text left, nav right */}
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-background/95 backdrop-blur-md shadow-sm py-3"
+            ? "bg-white/95 backdrop-blur-md border-b border-slate-100 py-3"
             : "bg-transparent py-5"
         }`}
       >
-        <nav className="container-custom flex items-center justify-between gap-4">
-          <Link
-            to="/"
-            className="group inline-flex items-center gap-3 hover:opacity-90 transition-opacity shrink-0"
-            aria-label="智石激光首页"
-          >
-            <img
-              src={logoSrc}
-              alt="智石激光 Logo"
-              className="w-9 h-9 sm:w-10 sm:h-10 object-contain"
-            />
-            <span className="leading-tight">
-              <span className="block font-serif text-lg sm:text-xl font-medium tracking-wide text-foreground">
-                智石激光
-              </span>
-              <span className="block text-[10px] sm:text-xs font-sans font-normal tracking-widest text-muted-foreground uppercase">
-                ZeStone Laser
-              </span>
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 flex items-center justify-between">
+          {/* Brand — Arial Bold Italic, like the SVG reference */}
+          <Link to="/" className="shrink-0 select-none" aria-label="Ultra Rock 首页">
+            <span
+              className="text-xl sm:text-2xl font-bold italic tracking-tight text-[#0f172a]"
+              style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
+            >
+              Ultra Rock
             </span>
           </Link>
 
-          <ul className="hidden lg:flex flex-wrap items-center justify-end gap-x-4 gap-y-1 xl:gap-x-6 text-[13px] tracking-wide">
-            {navLinks.map((link) => (
-              <li key={link.path}>
-                <NavLink
-                  to={link.path}
-                  end={link.path === "/"}
-                  className={({ isActive }) =>
-                    `link-underline transition-colors ${
-                      isActive
-                        ? "text-brand font-medium"
-                        : "text-muted-foreground hover:text-foreground font-light"
-                    }`
-                  }
-                >
-                  {link.label}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center gap-8">
+            <ul className="flex items-center gap-7 text-[13px]">
+              {navLinks.map((link) => (
+                <li key={link.path}>
+                  <NavLink
+                    to={link.path}
+                    className={({ isActive }) =>
+                      `transition-colors ${
+                        isActive ? "text-[#0f172a] font-medium" : "text-[#64748b] hover:text-[#0f172a]"
+                      }`
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+            <Link
+              to="/contact"
+              className="text-[13px] px-5 py-2 rounded-full border border-[#e2e8f0] text-[#0f172a] hover:border-[#0f172a] transition-colors font-medium"
+            >
+              联系
+            </Link>
+          </div>
 
+          {/* Mobile Toggle */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 -mr-2 hover:bg-border-light rounded-lg transition-colors"
-            aria-label="切换菜单"
+            className="lg:hidden p-2 -mr-2 text-[#0f172a]"
+            aria-label="菜单"
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
-        </nav>
+        </div>
       </header>
 
+      {/* Mobile Menu */}
       <div
-        className={`fixed inset-0 z-40 bg-background lg:hidden transition-all duration-300 ${
+        className={`fixed inset-0 z-40 bg-white lg:hidden transition-all duration-300 ${
           isMobileMenuOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
         }`}
       >
-        <div className="flex flex-col items-center justify-center h-full gap-6 pt-16 px-6 overflow-y-auto">
+        <div className="flex flex-col items-center justify-center h-full gap-8 px-6">
           {navLinks.map((link, index) => (
             <NavLink
               key={link.path}
               to={link.path}
-              end={link.path === "/"}
               className={({ isActive }) =>
-                `font-serif text-2xl sm:text-3xl font-medium transition-all duration-300 ${
-                  isActive ? "text-brand" : "text-foreground"
+                `text-2xl font-medium transition-all duration-300 ${
+                  isActive ? "text-[#2563eb]" : "text-[#0f172a]"
                 } ${isMobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"}`
               }
               style={{ transitionDelay: `${index * 40}ms` }}
@@ -123,68 +105,59 @@ export function Layout({ children }: { children: ReactNode }) {
               {link.label}
             </NavLink>
           ))}
+          <Link
+            to="/contact"
+            className="mt-4 px-8 py-3 rounded-full border-2 border-[#0f172a] text-[#0f172a] font-medium"
+          >
+            联系
+          </Link>
         </div>
       </div>
 
       <main className="flex-1">{children}</main>
 
-      <footer className="border-t border-border-light py-16 mt-20">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
-            <div className="lg:col-span-2">
-              <h3 className="font-serif text-xl font-medium mb-3">智石激光</h3>
-              <p className="text-xs uppercase tracking-widest text-muted-foreground mb-4">ZeStone Laser</p>
-              <p className="text-sm text-muted-foreground font-light leading-relaxed max-w-md">
-                以 AI 技术打造高精度智能激光器。开放、创新、自由、精益求精——不做工具人，做领域的开创者。
-              </p>
-            </div>
-
+      {/* Footer — Unitree style: clean grid of links */}
+      <footer className="bg-[#f8fafc] mt-20">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-16">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
             <div>
-              <h4 className="text-sm font-medium mb-4 tracking-wider uppercase">导航</h4>
-              <ul className="space-y-2.5">
-                {navLinks.map((link) => (
-                  <li key={link.path}>
-                    <Link
-                      to={link.path}
-                      className="text-sm text-muted-foreground hover:text-brand transition-colors font-light"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
+              <span
+                className="text-lg font-bold italic tracking-tight text-[#0f172a]"
+                style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
+              >
+                Ultra Rock
+              </span>
+              <p className="text-xs text-[#64748b] mt-2">疾石科技</p>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-[#0f172a] mb-4">产品</p>
+              <ul className="space-y-2 text-xs text-[#64748b]">
+                <li>RockSolid R-1</li>
+                <li>FluxBeam F-1</li>
+                <li>UltraLight U-1</li>
+                <li>RockCore 石核</li>
               </ul>
             </div>
-
             <div>
-              <h4 className="text-sm font-medium mb-4 tracking-wider uppercase">联系</h4>
-              <ul className="space-y-3 text-sm text-muted-foreground font-light">
-                <li>
-                  <a href="mailto:fccgccn@gmail.com" className="hover:text-brand transition-colors">
-                    fccgccn@gmail.com
-                  </a>
-                  <span className="block text-xs mt-0.5 opacity-80">商务与技术销售（示例）</span>
-                </li>
-                <li>
-                  <a href="tel:+864008008800" className="hover:text-brand transition-colors">
-                    +86 xxx-xxxx-xxxx
-                  </a>
-                </li>
-                <li>
-                  <Link to="/contact" className="hover:text-brand transition-colors">
-                    表单与合作入口 →
-                  </Link>
-                </li>
+              <p className="text-xs font-medium text-[#0f172a] mb-4">方案</p>
+              <ul className="space-y-2 text-xs text-[#64748b]">
+                <li>半导体</li>
+                <li>医疗器械</li>
+                <li>航空航天</li>
+                <li>科研定制</li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-xs font-medium text-[#0f172a] mb-4">联系</p>
+              <ul className="space-y-2 text-xs text-[#64748b]">
+                <li><a href="mailto:fccgccn@gmail.com" className="hover:text-[#0f172a] transition-colors">fccgccn@gmail.com</a></li>
+                <li><Link to="/contact" className="hover:text-[#0f172a] transition-colors">商务咨询 →</Link></li>
               </ul>
             </div>
           </div>
-
-          <div className="mt-12 pt-8 border-t border-border-light flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-xs text-muted-foreground font-light">
-              © {new Date().getFullYear()} 智石激光 ZeStone Laser. 保留所有权利。
-            </p>
-            <p className="text-xs text-muted-foreground font-light">
-              光子与算法，同频于产线
-            </p>
+          <div className="mt-14 pt-8 border-t border-[#e2e8f0] flex justify-between text-xs text-[#94a3b8]">
+            <span>© {new Date().getFullYear()} Ultra Rock 疾石科技</span>
+            <span>Ultra Speed. Rock Solid.</span>
           </div>
         </div>
       </footer>

@@ -1,206 +1,162 @@
 import { Link } from "react-router-dom";
-import { useEffect, useRef } from "react";
-import { ArrowRight, Cpu, Sparkles, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
-import logoImage from "@/assets/logo.jpg";
 
 export default function HomePage() {
   useScrollReveal();
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrolled = window.scrollY;
-      document.querySelectorAll(".parallax-slow").forEach((el) => {
-        const speed = 0.25;
-        (el as HTMLElement).style.transform = `translateY(${scrolled * speed}px)`;
-      });
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const base = import.meta.env.BASE_URL;
 
   return (
     <div>
-      <section
-        ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24"
-      >
-        <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-500/5 via-transparent to-primary/5" />
-          <div className="absolute top-1/4 left-1/4 w-[28rem] h-[28rem] rounded-full bg-cyan-500/5 blur-3xl parallax-slow" />
-          <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-primary/10 blur-3xl parallax-slow" />
+      {/* ================================================================
+          HERO — 全幅产品图 + 品牌文字（Unitree 风格）
+          ================================================================ */}
+      <section className="relative min-h-screen flex items-end pb-16 sm:pb-24">
+        {/* 全幅背景图 */}
+        <div className="absolute inset-0">
+          <img
+            src={`${base}gen-hero-laser-0.jpg`}
+            alt=""
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/60 to-transparent" />
         </div>
 
-        <div className="container-custom text-center">
-          <div className="animate-hero mb-5 flex justify-center">
-            <img
-              src={logoImage}
-              alt="ZeStone Laser Logo"
-              className="w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] md:w-[300px] md:h-[300px] object-cover rounded-2xl shadow-lg"
-            />
-          </div>
-
-          <div className="animate-hero delay-100 mb-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 bg-card rounded-full text-xs font-medium text-muted-foreground tracking-wider uppercase border border-border-light">
-              <Sparkles className="w-3 h-3 text-brand" />
-              ZeStone Laser · 智石激光
-            </span>
-          </div>
-
-          <h1 className="animate-hero delay-200 font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium leading-tight mb-6 max-w-5xl mx-auto">
-            <span className="block text-white">AI 驱动的下一代</span>
-            <span className="block text-white">高精度智能激光器</span>
-          </h1>
-
-          <p className="animate-hero delay-300 text-lg md:text-xl rainbow-text-soft font-light max-w-2xl mx-auto mb-4 leading-relaxed">
-            不做工具人，做领域的开创者。
-          </p>
-          <p className="animate-hero delay-300 text-sm md:text-base text-muted-foreground/90 font-light max-w-2xl mx-auto mb-12 leading-relaxed">
-            以开放、创新、自由与精益求精为底色，让光子与算法在产线上同频——精度可度量、工艺可迭代、人才被尊重。
-          </p>
-
-          <div className="animate-hero delay-400 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 flex-wrap">
-            <Link to="/products" className="btn-primary group">
-              探索产品
-              <ArrowRight className="w-4 h-4 arrow-icon" />
-            </Link>
-            <Link to="/contact" className="btn-outline">
-              预约技术交流
-            </Link>
-            <Link to="/careers" className="btn-outline">
-              加入我们
-            </Link>
-          </div>
-
-          <p className="animate-hero delay-500 mt-16 text-xs text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            主视觉示意：微米级加工动态与 AI 实时优化光路的抽象表达。合作伙伴 Logo、专利与认证标识可在取得授权后置于本区域下方。
-          </p>
-
-          <div className="animate-hero delay-500 absolute bottom-10 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2 text-muted-foreground">
-            <span className="text-xs tracking-widest uppercase font-light">向下探索</span>
-            <div className="w-px h-10 bg-gradient-to-b from-transparent via-border to-transparent" />
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 bg-card/50 border-y border-border-light">
-        <div className="container-custom">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-6">
-            {[
-              { icon: Zap, k: "±1 μm 级", label: "重复定位精度（典型工况，以机型为准）" },
-              { icon: Cpu, k: "< 250 μs", label: "闭环响应架构目标" },
-              { icon: Sparkles, k: "AI 自适应", label: "焦点自优化 · 热漂移补偿 · 路径智能规划" },
-              { icon: ArrowRight, k: "OTA 策略", label: "工艺包持续演进" },
-            ].map((stat, index) => (
-              <div
-                key={stat.label}
-                className={`animate-on-scroll text-center md:text-left delay-${(index + 1) * 100}`}
-              >
-                <div className="inline-flex md:flex mb-3 text-brand justify-center md:justify-start">
-                  <stat.icon className="w-5 h-5" />
-                </div>
-                <div className="font-serif text-2xl md:text-3xl font-medium text-foreground mb-2">
-                  {stat.k}
-                </div>
-                <div className="text-xs md:text-sm text-muted-foreground font-light leading-relaxed">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container-custom">
-          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-            <div>
-              <span className="animate-on-scroll text-xs tracking-widest uppercase text-brand font-medium">
-                产品系列
-              </span>
-              <h2 className="animate-on-scroll delay-100 font-serif text-3xl md:text-4xl font-medium mt-4">
-                AI + 高精度，场景化交付
-              </h2>
-            </div>
-            <Link
-              to="/products"
-              className="animate-on-scroll delay-200 inline-flex items-center gap-2 text-sm font-medium hover:text-brand transition-colors group"
+        {/* 文字叠加层 */}
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 lg:px-10 pt-28">
+          <div className="max-w-2xl">
+            <p className="text-sm text-[#64748b] tracking-[0.3em] mb-6">疾石科技</p>
+            <h1
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold italic leading-none tracking-tight text-[#0f172a] mb-6"
+              style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
             >
-              进入产品中心
-              <ArrowRight className="w-4 h-4 arrow-icon" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {productTeasers.map((item, index) => (
+              Ultra Rock
+            </h1>
+            <p className="text-base sm:text-lg text-[#475569] font-light leading-relaxed max-w-md mb-8">
+              智能超快激光器&ensp;·&ensp;极速造物，稳如磐石
+            </p>
+            <div className="flex gap-3">
               <Link
-                key={item.title}
                 to="/products"
-                className={`animate-on-scroll delay-${(index + 1) * 100} group block rounded-xl border border-border bg-card p-8 card-hover`}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#2563eb] transition-colors"
               >
-                <h3 className="font-serif text-xl font-medium mb-2 group-hover:text-brand transition-colors">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed mb-4">
-                  {item.desc}
-                </p>
-                <span className="text-xs text-brand font-medium">查看参数与 AI 亮点 →</span>
+                探索产品
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-[#cbd5e1] text-[#0f172a] text-sm font-medium rounded-full hover:border-[#0f172a] transition-colors"
+              >
+                预约交流
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          产品卡片区（Unitree 风格：大图 + 名称 + 简述 + 了解更多）
+          ================================================================ */}
+      <section className="py-20 sm:py-28">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {products.map((p, i) => (
+              <Link
+                key={p.name}
+                to="/products"
+                className={`animate-on-scroll delay-${(i + 1) * 100} group block rounded-2xl overflow-hidden bg-[#f8fafc] border border-[#f1f5f9] hover:shadow-lg hover:shadow-slate-200/50 transition-all duration-500`}
+              >
+                {/* 产品图 */}
+                <div className="aspect-[4/3] overflow-hidden bg-[#f1f5f9]">
+                  <img
+                    src={`${base}${p.img}`}
+                    alt={p.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                </div>
+                {/* 信息 */}
+                <div className="p-6">
+                  <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-2">{p.tier}</p>
+                  <h3 className="text-xl font-bold text-[#0f172a] mb-1">{p.name}</h3>
+                  <p className="text-sm text-[#64748b] font-light leading-relaxed mb-4">{p.desc}</p>
+                  <span className="inline-flex items-center gap-1 text-xs text-[#0f172a] font-medium group-hover:text-[#2563eb] transition-colors">
+                    了解更多
+                    <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section bg-card/30">
-        <div className="container-custom max-w-3xl mx-auto text-center">
-          <span className="animate-on-scroll text-xs tracking-widest uppercase text-brand font-medium">
-            信任与合规（占位）
-          </span>
-          <p className="animate-on-scroll delay-100 text-muted-foreground font-light mt-4 mb-8 leading-relaxed">
-            战略合作伙伴标识、已授权专利数量、CE / RoHS / 激光安全等级等认证，待市场与法务确认后替换本段文案与 Logo 墙。
-          </p>
-          <div className="animate-on-scroll delay-200 flex flex-wrap justify-center gap-3">
-            {["半导体", "医疗精密", "航空航天", "新能源"].map((tag) => (
-              <span
-                key={tag}
-                className="px-4 py-2 rounded-full border border-border text-xs text-muted-foreground"
-              >
-                {tag} · 试点与联合实验室
-              </span>
+      {/* ================================================================
+          三段式品牌叙事（精简版，无重复品牌名）
+          ================================================================ */}
+      <section className="py-20 sm:py-28 bg-[#f8fafc]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            {[
+              {
+                icon: "⚡",
+                title: "疾 · Ultra Speed",
+                body: "一飞秒，是一秒的千万亿分之一。在这个时间尺度里，光只走了 0.3 微米。我们控制的，是时间的极限。",
+              },
+              {
+                icon: "🪨",
+                title: "石 · Rock Solid",
+                body: "当别人在谈论能做多快，我们在证明能做多稳。无微裂纹、无热影响、无材料损伤——这是我们的标准。",
+              },
+              {
+                icon: "◎",
+                title: "智能 · Intelligent",
+                body: "把极致的动态，交给极致的算法。智能，是疾与石之间唯一的桥梁。",
+              },
+            ].map((item, i) => (
+              <div key={item.title} className={`animate-on-scroll delay-${(i + 1) * 100}`}>
+                <div className="text-2xl mb-4">{item.icon}</div>
+                <h3 className="text-lg font-bold text-[#0f172a] mb-3">{item.title}</h3>
+                <p className="text-sm text-[#64748b] font-light leading-relaxed">{item.body}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container-custom">
-          <div className="animate-on-scroll relative overflow-hidden rounded-2xl bg-foreground text-background p-12 md:p-16 text-center">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-primary/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
-            <div className="relative z-10">
-              <h2 className="font-serif text-3xl md:text-4xl font-medium mb-4">
-                与光子一起，重新定义工艺极限
-              </h2>
-              <p className="text-background/70 font-light max-w-lg mx-auto mb-8">
-                预约技术交流或加入「开放实验室」，与光学、AI、机械、材料等领域的同路人并肩迭代。
-              </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-2 px-8 py-4 bg-background text-foreground font-medium hover:bg-brand hover:text-white transition-colors"
-                >
-                  预约技术交流
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/solutions"
-                  className="inline-flex items-center gap-2 px-8 py-4 border border-background/40 text-background font-medium hover:bg-background/10 transition-colors"
-                >
-                  解决方案与案例
-                </Link>
-              </div>
-            </div>
+      {/* ================================================================
+          品牌金句
+          ================================================================ */}
+      <section className="py-20 sm:py-28">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 text-center">
+          <div className="animate-on-scroll max-w-2xl mx-auto">
+            <p className="text-2xl md:text-3xl text-[#0f172a] font-light leading-relaxed italic">
+              "它和地球一样古老。我们用飞秒的速度，在上面书写新的故事。"
+            </p>
+            <div className="w-10 h-px bg-[#cbd5e1] mx-auto mt-10 mb-6" />
+            <p className="text-xs text-[#94a3b8] tracking-wider uppercase">Ultra Rock</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          CTA
+          ================================================================ */}
+      <section className="pb-20 sm:pb-28">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 text-center">
+          <div className="animate-on-scroll">
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0f172a] mb-4">
+              与光子一起，重新定义工艺极限
+            </h2>
+            <p className="text-sm text-[#64748b] font-light mb-8 max-w-md mx-auto">
+              预约技术交流，了解疾石智能超快激光器如何为您的材料与工艺提供飞秒级精密解决方案。
+            </p>
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#2563eb] transition-colors"
+            >
+              预约技术交流
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </section>
@@ -208,17 +164,23 @@ export default function HomePage() {
   );
 }
 
-const productTeasers = [
+const products = [
   {
-    title: "微加工系列",
-    desc: "脆硬材料微槽、微孔与精密切割；AI 抑制崩边与锥度漂移。",
+    tier: "基础款",
+    name: "RockSolid R-1",
+    desc: "磐石系列 · 可靠基础。飞秒冷加工覆盖主流硬脆材料，稳定、耐用、易集成。",
+    img: "gen-product-rocksolid-0.jpg",
   },
   {
-    title: "精密焊接系列",
-    desc: "薄材与异种金属；热影响区与飞溅的实时预测与参数回退。",
+    tier: "中高端",
+    name: "FluxBeam F-1",
+    desc: "砺流系列 · 为复杂工艺而生。更高精度、更快节拍、AI 自适应多材料混合产线。",
+    img: "gen-product-fluxbeam-0.jpg",
   },
   {
-    title: "表面处理系列",
-    desc: "清洗、纹理化与选择性改性；路径与能量分布协同优化。",
+    tier: "高端",
+    name: "UltraLight U-1",
+    desc: "疾光系列 · 极限精度旗舰。逼近衍射极限，面向半导体前沿与科研定制。",
+    img: "gen-product-ultralight-0.jpg",
   },
 ];

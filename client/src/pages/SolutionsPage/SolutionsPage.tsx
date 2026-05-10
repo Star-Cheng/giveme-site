@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, FlaskConical, Quote } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function SolutionsPage() {
@@ -7,29 +7,68 @@ export default function SolutionsPage() {
 
   return (
     <div className="pt-28">
-      <section className="section pb-12">
-        <div className="container-custom">
-          <span className="animate-hero text-xs tracking-widest uppercase text-brand font-medium">
-            解决方案 · 应用案例
-          </span>
-          <h1 className="animate-hero delay-100 font-serif text-4xl md:text-5xl font-medium mt-4 mb-6 max-w-3xl">
+      {/* HERO */}
+      <section className="pb-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-4">行业解决方案</p>
+          <h1 className="text-4xl md:text-5xl font-bold text-[#0f172a] mb-6 leading-tight">
             用场景证明价值
           </h1>
-          <p className="animate-hero delay-200 text-muted-foreground font-light max-w-2xl leading-relaxed">
-            每个案例遵循：挑战 → 传统痛点 → 智石方案 → 量化收益；用户证言在试点期可使用匿名合作方反馈，量产客户授权后替换。
+          <p className="text-sm text-[#64748b] font-light max-w-2xl leading-relaxed">
+            Ultra Rock | [Series] [Material] Sol. [Model]&ensp;——&ensp;每个方案遵循：挑战 → 传统痛点 → 疾石方案 → 量化收益。
           </p>
         </div>
       </section>
 
-      <section className="section bg-card/50 border-y border-border-light">
-        <div className="container-custom">
-          <h2 className="animate-on-scroll font-serif text-2xl font-medium mb-10">典型行业</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {industries.map((name, index) => (
+      {/* 方案卡片（Unitree 风格大卡片） */}
+      <section className="pb-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {solutions.map((s, i) => (
               <div
-                key={name}
-                className={`animate-on-scroll delay-${(index + 1) * 100} px-5 py-4 rounded-xl border border-border bg-background text-sm font-light`}
+                key={s.title}
+                className={`animate-on-scroll delay-${(i + 1) * 100} rounded-2xl overflow-hidden bg-[#f8fafc] border border-[#f1f5f9] flex flex-col`}
               >
+                <div className="p-6 flex-1">
+                  <span className="text-xs text-[#2563eb] font-medium tracking-wider uppercase">{s.series}</span>
+                  <h3 className="text-xl font-bold text-[#0f172a] mt-2 mb-1">{s.title}</h3>
+                  <p className="text-xs text-[#64748b] mb-4">{s.english}</p>
+                  <p className="text-xs text-[#94a3b8] mb-6">{s.sector}</p>
+
+                  <div className="space-y-4 text-sm">
+                    <div>
+                      <p className="text-xs font-semibold text-[#0f172a] mb-1">挑战</p>
+                      <p className="text-xs text-[#64748b] font-light leading-relaxed">{s.challenge}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-[#0f172a] mb-1">传统痛点</p>
+                      <p className="text-xs text-[#64748b] font-light leading-relaxed">{s.pain}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-[#0f172a] mb-1">疾石方案</p>
+                      <p className="text-xs text-[#64748b] font-light leading-relaxed">{s.solution}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-6 pt-0">
+                  <div className="rounded-xl bg-white p-4 border border-[#f1f5f9]">
+                    <p className="text-xs font-semibold text-[#2563eb] mb-2">量化收益</p>
+                    <p className="text-xs text-[#0f172a] font-medium leading-relaxed">{s.metrics}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 应用领域 */}
+      <section className="py-16 bg-[#f8fafc]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <h2 className="text-2xl font-bold text-[#0f172a] mb-10">应用领域</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            {["半导体", "医疗器械", "航空航天", "新能源", "光学器件", "科研定制"].map((name) => (
+              <div key={name} className="px-4 py-5 rounded-xl bg-white border border-[#f1f5f9] text-center text-sm font-medium text-[#0f172a]">
                 {name}
               </div>
             ))}
@@ -37,66 +76,20 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="container-custom space-y-16">
-          {cases.map((c, i) => (
-            <article
-              key={c.title}
-              className={`animate-on-scroll delay-${(i + 1) * 100} grid grid-cols-1 lg:grid-cols-12 gap-10 border-b border-border-light pb-16 last:border-0 last:pb-0`}
-            >
-              <div className="lg:col-span-4">
-                <h2 className="font-serif text-2xl font-medium mb-2">{c.title}</h2>
-                <p className="text-xs text-muted-foreground uppercase tracking-wider">{c.sector}</p>
-              </div>
-              <div className="lg:col-span-8 space-y-6 text-sm font-light text-muted-foreground leading-relaxed">
-                <div>
-                  <h3 className="text-foreground font-medium text-sm mb-2">挑战</h3>
-                  <p>{c.challenge}</p>
-                </div>
-                <div>
-                  <h3 className="text-foreground font-medium text-sm mb-2">传统方案痛点</h3>
-                  <p>{c.pain}</p>
-                </div>
-                <div>
-                  <h3 className="text-foreground font-medium text-sm mb-2">智石 AI 激光器方案</h3>
-                  <p>{c.solution}</p>
-                </div>
-                <div>
-                  <h3 className="text-foreground font-medium text-sm mb-2">量化收益（验收口径占位）</h3>
-                  <p>{c.metrics}</p>
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="section bg-card/30">
-        <div className="container-custom max-w-3xl mx-auto">
-          <div className="flex items-start gap-4 mb-10">
-            <Quote className="w-8 h-8 text-brand shrink-0" aria-hidden />
-            <blockquote className="font-serif text-xl md:text-2xl font-normal leading-relaxed">
-              「联合实验室阶段，我们在数周内完成从样件到小批次的参数冻结。」
-              <footer className="mt-4 text-sm text-muted-foreground not-italic font-sans font-light">
-                — 某合作方工艺负责人（匿名，试点期）
-              </footer>
-            </blockquote>
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="container-custom">
-          <div className="animate-on-scroll flex flex-col md:flex-row gap-8 items-start p-8 md:p-10 rounded-2xl border border-brand/20 bg-card">
-            <FlaskConical className="w-10 h-10 text-brand shrink-0" />
+      {/* 开放实验室 */}
+      <section className="py-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <div className="max-w-3xl mx-auto bg-[#f8fafc] rounded-2xl p-8 md:p-10 border border-[#f1f5f9] flex flex-col md:flex-row gap-8 items-start">
+            <div className="w-12 h-12 rounded-full bg-[#eff6ff] flex items-center justify-center shrink-0">
+              <span className="text-xl">◇</span>
+            </div>
             <div>
-              <h2 className="font-serif text-2xl font-medium mb-4">「开放实验室」计划</h2>
-              <p className="text-sm text-muted-foreground font-light leading-relaxed mb-6">
-                邀请高校、研究所与产业伙伴共建工艺窗口与数据规范；尊重光学、AI、机械、材料等跨学科贡献，署名与知识产权条款事前书面约定。
+              <h3 className="text-xl font-bold text-[#0f172a] mb-3">「开放实验室」计划</h3>
+              <p className="text-sm text-[#64748b] font-light leading-relaxed mb-6">
+                邀请高校、研究所与产业伙伴共建工艺窗口与数据规范。支持按材料与工艺定制行业方案——署名与知识产权条款事前书面约定。
               </p>
-              <Link to="/contact" className="btn-primary group inline-flex">
-                申请合作入口
-                <ArrowRight className="w-4 h-4 arrow-icon" />
+              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#2563eb] transition-colors">
+                申请合作入口 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -106,29 +99,35 @@ export default function SolutionsPage() {
   );
 }
 
-const industries = [
-  "半导体晶圆切割",
-  "医疗器械微孔加工",
-  "航空航天精密刻蚀",
-  "新能源电池极耳焊接",
-  "科研定制系统",
-];
-
-const cases = [
+const solutions = [
   {
-    title: "脆硬材料微槽加工",
-    sector: "半导体 / 先进制造",
-    challenge: "线宽与崩边指标双紧，换型频繁。",
-    pain: "参数漂移依赖老师傅试错，首件周期长、良率波动大。",
-    solution: "AI 协同光路 + 可重复工艺包 + 远程标定与版本管理，小样本快速收敛。",
-    metrics: "良率 +__% · 节拍 −__% · 调机时间 −__%（以项目验收报告为准）。",
+    series: "砺流系列",
+    title: "蓝宝石微孔阵列",
+    english: "FluxBeam Sapphire Sol. F-1",
+    sector: "半导体衬底加工 · 蓝宝石 Ø50μm 微孔阵列",
+    challenge: "线宽与崩边指标双紧，换型频繁，批量一致性要求极高。",
+    pain: "传统纳秒激光热影响大，边缘崩边严重；参数漂移依赖老师傅试错，首件周期长、良率波动大。",
+    solution: "FluxBeam Laser F-1 飞秒冷加工 + RockCore VisionPack 在线视觉检测 + RockCore ProcessDB 工艺库快速迁移。",
+    metrics: "边缘崩边率降至接近零 · 良率提升至 99%+ · 调机时间从数小时缩短至分钟级。",
   },
   {
-    title: "薄壁件精密焊接",
-    sector: "新能源 / 汽车电子",
-    challenge: "热影响区与飞溅约束严格，材料批次差异大。",
-    pain: "固定参数表难以覆盖工况变化，返工成本高。",
-    solution: "熔池风险实时预测与参数回退；摆动与能量曲线在线优化。",
-    metrics: "飞溅相关缺陷 −__% · 首件一次通过率 +__%（占位）。",
+    series: "疾光系列",
+    title: "金刚石精密切割",
+    english: "UltraLight Diamond Sol. U-1",
+    sector: "光学与珠宝 · CVD 金刚石晶向切割",
+    challenge: "沿晶向精密切割，要求零热损伤、零微裂纹、表面 Ra < 0.2μm。",
+    pain: "机械切割效率低、损耗大；传统激光热应力导致裂纹扩展，成品率不足 60%。",
+    solution: "UltraLight Laser U-1 极限光束质量 + 自适应晶向切割路径规划 + RockCore Platform OS 全链路协同。",
+    metrics: "切割面 Ra < 0.2μm · 无热影响区 · 材料损耗降低 40%+ · 成品率 > 95%。",
+  },
+  {
+    series: "砺流系列",
+    title: "碳化硅晶圆划片",
+    english: "FluxBeam SiC Sol. F-1",
+    sector: "第三代半导体 · SiC 晶圆隐形切割",
+    challenge: "窄切缝（< 20μm）、无崩边、芯片电性能零退化。",
+    pain: "刀轮划片应力大、切缝宽；传统激光热影响导致芯片性能退化，良率损失严重。",
+    solution: "FluxBeam Laser F-1 飞秒隐形切割 + RockCore Controller 亚微秒时序同步 + 实时焦点跟踪。",
+    metrics: "切缝宽度 < 20μm · 无崩边 · 芯片电性能无退化 · 良率接近 100%。",
   },
 ];

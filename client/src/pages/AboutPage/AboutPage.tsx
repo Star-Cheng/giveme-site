@@ -1,114 +1,124 @@
-import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 export default function AboutPage() {
   useScrollReveal();
+  const base = import.meta.env.BASE_URL;
 
   return (
     <div className="pt-28">
-      <section className="section pb-12">
-        <div className="container-custom grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
-          <div className="order-2 lg:order-1">
-            <div className="aspect-[4/5] max-h-[420px] rounded-xl bg-gradient-to-br from-card via-border-light to-border border border-border overflow-hidden relative">
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-8 text-center">
-                <span className="font-serif text-5xl text-brand/30 mb-2">智</span>
-                <p className="text-xs text-muted-foreground font-light leading-relaxed">
-                  团队与开放实验室影像占位
-                  <br />
-                  可替换为产线、光学平台或团队合照
+      {/* ================================================================
+          HERO — 公司简介
+          ================================================================ */}
+      <section className="pb-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-4">关于疾石</p>
+              <h1 className="text-3xl md:text-4xl font-bold text-[#0f172a] mb-6 leading-tight">
+                Ultra Rock 疾石科技
+              </h1>
+              <div className="space-y-4 text-sm text-[#475569] font-light leading-relaxed">
+                <p>
+                  疾石科技是一家专注于智能超快激光器研发与制造的高科技企业。我们以飞秒激光为核心技术，面向半导体、医疗器械、航空航天等领域提供精密激光加工解决方案。
+                </p>
+                <p>
+                  公司自主研发飞秒脉冲生成、光束整形、智能控制系统等关键核心技术，在硬脆材料（蓝宝石、金刚石、碳化硅）的超精密加工领域具有领先优势。
+                </p>
+                <p>
+                  疾石是全球率先将 AI 自适应算法深度集成于飞秒激光加工全链路的公司之一，致力于让每一颗光子都按意图行事。
                 </p>
               </div>
             </div>
-          </div>
-          <div className="order-1 lg:order-2">
-            <span className="animate-hero text-xs tracking-widest uppercase text-brand font-medium">
-              关于我们
-            </span>
-            <h1 className="animate-hero delay-100 font-serif text-4xl md:text-5xl font-medium mt-4 mb-6">
-              智石激光 ZeStone Laser
-            </h1>
-            <div className="animate-hero delay-200 space-y-4 text-muted-foreground font-light leading-relaxed text-sm md:text-base">
-              <p>
-                智石激光诞生于一个朴素判断：精密制造的瓶颈，日益不在「更大的功率」，而在
-                <strong className="text-foreground font-medium"> 光子在材料里是否按意图行事</strong>
-                。我们融合 AI 与高端激光工程，打造可迭代、可度量、可协作的下一代智能激光器。
-              </p>
-              <p>
-                <strong className="text-foreground font-medium">不做牛马工具人，做热情的领域开创者</strong>
-                ——开放、创新、自由、精益求精；尊重光学、AI、机械、材料等跨学科人才，让贡献被看见、被记录、被回报。
-              </p>
-            </div>
-            <div className="animate-hero delay-300 mt-8">
-              <Link to="/careers" className="btn-primary group inline-flex">
-                加入开创者行列
-                <ArrowRight className="w-4 h-4 arrow-icon" />
-              </Link>
+            <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-[#f1f5f9]">
+              <img src={`${base}gen-lab-scene-0.jpg`} alt="疾石科技实验室" className="w-full h-full object-cover" />
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section bg-card/50 border-y border-border-light">
-        <div className="container-custom">
-          <h2 className="animate-on-scroll font-serif text-2xl md:text-3xl font-medium text-center mb-12">
-            文化宣言
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {culture.map((c, i) => (
-              <div
-                key={c.title}
-                className={`animate-on-scroll delay-${(i + 1) * 100} p-6 rounded-xl border border-border bg-background`}
-              >
-                <h3 className="font-serif text-lg font-medium mb-2 text-brand">{c.title}</h3>
-                <p className="text-sm text-muted-foreground font-light leading-relaxed">{c.body}</p>
+      {/* ================================================================
+          文化理念（Unitree 风格：愿景 / 使命 / 文化 / 战略）
+          ================================================================ */}
+      <section className="py-16 bg-[#f8fafc]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <h2 className="text-2xl font-bold text-[#0f172a] text-center mb-12">文化理念</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "愿景", en: "Vision", body: "用飞秒之光，重塑精密制造的极限。" },
+              { title: "使命", en: "Mission", body: "让每一颗光子都按意图行事——打造可迭代、可度量、可协作的智能激光系统。" },
+              { title: "文化", en: "Culture", body: "极致速度，磐石品质。开放协作，精益求精。" },
+              { title: "行动指南", en: "Action", body: "细分目标，高效执行，校核结果，反馈迭代。" },
+            ].map((item, i) => (
+              <div key={item.title} className={`animate-on-scroll delay-${(i + 1) * 100} p-6 rounded-2xl bg-white border border-[#f1f5f9]`}>
+                <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-2">{item.en}</p>
+                <h3 className="text-lg font-bold text-[#0f172a] mb-3">{item.title}</h3>
+                <p className="text-sm text-[#64748b] font-light leading-relaxed">{item.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section">
-        <div className="container-custom">
-          <span className="animate-on-scroll text-xs tracking-widest uppercase text-brand font-medium">
-            跨学科团队（示例）
-          </span>
-          <h2 className="animate-on-scroll delay-100 font-serif text-2xl md:text-3xl font-medium mt-4 mb-10">
-            每人一句：为什么我不做牛马工具人
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {team.map((m, i) => (
-              <div
-                key={m.role}
-                className={`animate-on-scroll delay-${(i + 1) * 100} p-6 rounded-xl bg-card border border-border-light`}
-              >
-                <div className="text-xs text-brand font-medium uppercase tracking-wider mb-2">{m.role}</div>
-                <p className="font-serif text-lg italic text-foreground/90">&ldquo;{m.tagline}&rdquo;</p>
+      {/* ================================================================
+          社会贡献
+          ================================================================ */}
+      <section className="py-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <h2 className="text-2xl font-bold text-[#0f172a] text-center mb-4">社会贡献</h2>
+          <p className="text-sm text-[#64748b] font-light text-center max-w-2xl mx-auto mb-12">
+            疾石通过不断创新的飞秒激光技术，为高端制造、科研探索和产业升级贡献力量。
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { title: "半导体制造", desc: "为第三代半导体晶圆划片提供零热影响切割方案，助力芯片良率突破。" },
+              { title: "医疗器械", desc: "飞秒激光微孔加工技术应用于高端医疗器械精密部件制造。" },
+              { title: "科研赋能", desc: "开放实验室计划，与高校和研究所共建工艺窗口，推动飞秒技术普惠。" },
+            ].map((item, i) => (
+              <div key={item.title} className={`animate-on-scroll delay-${(i + 1) * 100} p-6 rounded-2xl bg-[#f8fafc] border border-[#f1f5f9] text-center`}>
+                <div className="w-12 h-12 rounded-full bg-[#eff6ff] flex items-center justify-center mx-auto mb-4">
+                  <span className="text-xl">{(i === 0 ? "◆" : i === 1 ? "◇" : "◎")}</span>
+                </div>
+                <h3 className="font-bold text-[#0f172a] mb-2">{item.title}</h3>
+                <p className="text-sm text-[#64748b] font-light leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="section bg-card/30">
-        <div className="container-custom max-w-3xl mx-auto">
-          <h2 className="animate-on-scroll font-serif text-2xl font-medium mb-10 text-center">
-            大事记
-          </h2>
+      {/* ================================================================
+          创始人寄语
+          ================================================================ */}
+      <section className="py-16 bg-[#f8fafc]">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl font-bold text-[#0f172a] mb-10">创始人寄语</h2>
+            <blockquote className="text-lg md:text-xl text-[#475569] font-light leading-relaxed italic mb-8">
+              "飞秒激光快到一个脉冲只有千万亿分之一秒，但我们用它加工最硬的材料，却要求绝对的稳定。这个矛盾，就是我们存在的理由。把最快的刀，立在最稳的台上——这不仅是一个技术命题，更是我们对精密制造的理解。真正美的事物极具感染力，然而整个行业却鲜有改变。我们坚定地认为，创新才是企业发展的基石。"
+            </blockquote>
+            <p className="text-sm text-[#64748b] font-medium">— Ultra Rock 疾石科技 创始人</p>
+          </div>
+        </div>
+      </section>
+
+      {/* ================================================================
+          公司发展轴（Unitree 风格：详细年表）
+          ================================================================ */}
+      <section className="py-16">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10 max-w-3xl">
+          <h2 className="text-2xl font-bold text-[#0f172a] text-center mb-14">公司发展轴</h2>
           <div className="space-y-0">
-            {milestones.map((m, index) => (
+            {timeline.map((item, i) => (
               <div
-                key={m.time}
-                className={`animate-on-scroll relative pl-8 pb-12 ${
-                  index !== milestones.length - 1 ? "border-l border-border" : ""
+                key={item.year}
+                className={`animate-on-scroll delay-${(i + 1) * 80} relative pl-12 pb-14 ${
+                  i < timeline.length - 1 ? "border-l-2 border-[#e2e8f0]" : ""
                 }`}
               >
-                <div className="absolute left-0 top-0 w-3 h-3 -translate-x-1/2 rounded-full bg-brand" />
-                <div className="ml-6">
-                  <span className="text-xs text-muted-foreground font-light">{m.time}</span>
-                  <h3 className="font-medium mt-1 mb-2">{m.title}</h3>
-                  <p className="text-sm text-muted-foreground font-light leading-relaxed">{m.note}</p>
-                </div>
+                <div className="absolute left-0 top-0 w-3 h-3 -translate-x-[7px] rounded-full bg-[#2563eb]" />
+                <span className="text-sm font-bold text-[#2563eb]">{item.year}</span>
+                <h3 className="text-base font-bold text-[#0f172a] mt-2 mb-2">{item.title}</h3>
+                <p className="text-sm text-[#64748b] font-light leading-relaxed">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -118,43 +128,35 @@ export default function AboutPage() {
   );
 }
 
-const culture = [
+const timeline = [
   {
-    title: "开放",
-    body: "核心工具链与部分参考实现以合规方式开放，降低生态协作门槛；路线图在新闻与知识库持续更新。",
+    year: "2026",
+    title: "UltraLight U-1 旗舰发布",
+    desc: "推出疾光系列旗舰激光器，逼近衍射极限的光束质量（M² ≤ 1.1），脉冲宽度突破 300fs，面向半导体前沿工艺与科研定制需求。",
   },
   {
-    title: "创新",
-    body: "鼓励可证伪的技术假设与快速实验闭环，把「试点数据」当作一等公民。",
+    year: "2025",
+    title: "RockCore 智能控制平台上线",
+    desc: "发布统一的智能控制系统 RockCore 石核，涵盖 Platform OS、VisionPack、ProcessDB、Controller 四大模块，实现软件定义硬件。",
   },
   {
-    title: "自由",
-    body: "弹性工作制；技术路线经民主评议后锁定里程碑，减少自上而下拍脑袋。",
+    year: "2024",
+    title: "FluxBeam F-1 & RockSolid R-1 双系列发布",
+    desc: "推出砺流系列（中高端）与磐石系列（基础款）飞秒激光器，完成从基础到高端的全栈产品覆盖。",
   },
   {
-    title: "精益求精",
-    body: "每月「匠心日」——全员只盯一个微指标，把它从「差不多」推到「可写进规格书」。",
+    year: "2023",
+    title: "首批行业试点验证",
+    desc: "与头部客户联合验证蓝宝石微孔阵列、金刚石精密切割、碳化硅晶圆划片三大场景，良率与稳定性指标达到量产标准。",
   },
   {
-    title: "尊重各领域人才",
-    body: "好激光是光子学 × 材料 × 机械 × AI × 工艺的乘积；联合署名与知识产权条款事前书面约定。",
+    year: "2022",
+    title: "工程样机点亮",
+    desc: "首台飞秒激光工程样机完成装配调试，闭环控制链路打通，脉冲宽度稳定在 500fs 以内。",
   },
   {
-    title: "开创者",
-    body: "拒绝把工程师当作螺丝钉；用系统与数据把个人经验沉淀为组织资产。",
+    year: "2021",
+    title: "公司成立",
+    desc: "确立「飞秒 + 智能」技术路线，品牌名 Ultra Rock / 疾石科技正式启用。核心团队汇聚光学、AI、精密机械领域资深专家。",
   },
-];
-
-const team = [
-  { role: "光学", tagline: "我不想调一辈子镜片，我想让镜片学会自己变好。" },
-  { role: "AI", tagline: "模型不是幻灯片，是产线上每一颗光子的副驾驶。" },
-  { role: "机械与热", tagline: "结构不是铁块，是热的语法。" },
-  { role: "激光工艺", tagline: "工艺不是玄学，是可版本管理的工程资产。" },
-];
-
-const milestones = [
-  { time: "T0", title: "公司成立", note: "确立「AI 原生激光器」产品哲学与长期技术栈。" },
-  { time: "T1", title: "工程样机点亮", note: "闭环控制链路打通，进入试点客户场景迭代。" },
-  { time: "T2", title: "行业共建试点线", note: "与头部客户联合验证良率、节拍与可维护性指标。" },
-  { time: "T3（规划）", title: "开放实验室首批课题", note: "发布联合工艺窗口与数据规范，邀请高校与供应链伙伴。" },
 ];
