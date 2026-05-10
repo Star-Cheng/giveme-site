@@ -102,7 +102,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-xs text-[#94a3b8] font-medium tracking-wider uppercase mb-1">地址</p>
-                  <p className="text-sm text-[#475569]">中国 · 具体地址待补充</p>
+                  <p className="text-sm text-[#475569]">广东省深圳市宝安区福海街道塘尾社区荔园路翰宇湾区创新港6号楼</p>
                 </div>
                 <div>
                   <p className="text-xs text-[#94a3b8] font-medium tracking-wider uppercase mb-1">工作时间</p>
