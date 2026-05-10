@@ -57,12 +57,12 @@ export default function TechnologyPage() {
   ];
 
   const params = [
-    [t("tech.params.1.label"), "< 500 fs（典型），覆盖 fs ~ ps 范围"],
-    [t("tech.params.2.label"), "355 nm / 532 nm / 1064 nm（按配置）"],
-    [t("tech.params.3.label"), "≤ 1.3"],
-    [t("tech.params.4.label"), "±1 μm 级（典型工况）"],
-    [t("tech.params.5.label"), "< 250 μs 目标架构"],
-    [t("tech.params.6.label"), "蓝宝石、金刚石、碳化硅、玻璃、陶瓷、金属"],
+    [t("tech.params.1.label"), t("tech.params.1.value")],
+    [t("tech.params.2.label"), t("tech.params.2.value")],
+    [t("tech.params.3.label"), t("tech.params.3.value")],
+    [t("tech.params.4.label"), t("tech.params.4.value")],
+    [t("tech.params.5.label"), t("tech.params.5.value")],
+    [t("tech.params.6.label"), t("tech.params.6.value")],
   ];
 
   return (

@@ -33,7 +33,7 @@ export function Layout({ children }: { children: ReactNode }) {
       >
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10 flex items-center justify-between">
           {/* Brand — Arial Bold Italic, like the SVG reference */}
-          <Link to="/" className="shrink-0 select-none" aria-label="Ultra Rock 首页">
+          <Link to="/" className="shrink-0 select-none" aria-label={t("layout.logo.ariaLabel")}>
             <span
               className="text-xl sm:text-2xl font-bold italic tracking-tight text-[#0f172a]"
               style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
@@ -79,7 +79,7 @@ export function Layout({ children }: { children: ReactNode }) {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="lg:hidden p-2 -mr-2 text-[#0f172a]"
-            aria-label="菜单"
+            aria-label={t("layout.menu.ariaLabel")}
           >
             {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
@@ -129,7 +129,7 @@ export function Layout({ children }: { children: ReactNode }) {
               >
                 Ultra Rock
               </span>
-              <p className="text-xs text-[#64748b] mt-2">疾石科技</p>
+              <p className="text-xs text-[#64748b] mt-2">{t("footer.brand.cn")}</p>
             </div>
             <div>
               <p className="text-xs font-medium text-[#0f172a] mb-4">{t("footer.products")}</p>
