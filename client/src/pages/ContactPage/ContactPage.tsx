@@ -27,7 +27,7 @@ export default function ContactPage() {
       const submitTarget = resolveSubmitTarget();
       const isFormSubmit = submitTarget.includes("formsubmit.co/ajax/");
       const payload = isFormSubmit
-        ? { ...formData, _subject: `【商务咨询】${formData.company} - ${formData.name}`, _captcha: "false", _template: "table", _cc: "ur@ultrarock.net" }
+        ? { ...formData, _subject: `【商务咨询】${formData.company} - ${formData.name}`, _captcha: "false", _template: "table", _cc: "rabbit@ultrarock.net" }
         : formData;
       const response = await fetch(submitTarget, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) });
       if (!response.ok) throw new Error(t("contact.form.error"));

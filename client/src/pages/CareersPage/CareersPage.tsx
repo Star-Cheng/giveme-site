@@ -163,7 +163,7 @@ export default function CareersPage() {
                 <>
                   <input type="hidden" name="_captcha" value="false" />
                   <input type="hidden" name="_template" value="table" />
-                  <input type="hidden" name="_cc" value="fccgccn@gmail.com" />
+                  <input type="hidden" name="_cc" value="rabbit@ultrarock.net" />
                   <input type="hidden" name="_subject" value={`【简历投递】${formData.position} - ${formData.name}`} />
                 </>
               )}
