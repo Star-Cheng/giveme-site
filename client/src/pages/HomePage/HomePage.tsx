@@ -38,7 +38,7 @@ export default function HomePage() {
             <div className="flex gap-3">
               <Link
                 to="/products"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#2563eb] transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#7c3aed] transition-colors"
               >
                 探索产品
                 <ArrowRight className="w-4 h-4" />
@@ -76,10 +76,10 @@ export default function HomePage() {
                 </div>
                 {/* 信息 */}
                 <div className="p-6">
-                  <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-2">{p.tier}</p>
+                  <p className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase mb-2">{p.tier}</p>
                   <h3 className="text-xl font-bold text-[#0f172a] mb-1">{p.name}</h3>
                   <p className="text-sm text-[#64748b] font-light leading-relaxed mb-4">{p.desc}</p>
-                  <span className="inline-flex items-center gap-1 text-xs text-[#0f172a] font-medium group-hover:text-[#2563eb] transition-colors">
+                  <span className="inline-flex items-center gap-1 text-xs text-[#0f172a] font-medium group-hover:text-[#7c3aed] transition-colors">
                     了解更多
                     <ArrowRight className="w-3 h-3" />
                   </span>
@@ -133,7 +133,7 @@ export default function HomePage() {
               "它和地球一样古老。我们用飞秒的速度，在上面书写新的故事。"
             </p>
             <div className="w-10 h-px bg-[#cbd5e1] mx-auto mt-10 mb-6" />
-            <p className="text-xs text-[#94a3b8] tracking-wider uppercase">Ultra Rock</p>
+            <p className="text-base font-bold text-[#0f172a] tracking-wider">Ultra Speed. Rock Solid.</p>
           </div>
         </div>
       </section>
@@ -152,7 +152,7 @@ export default function HomePage() {
             </p>
             <Link
               to="/contact"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#2563eb] transition-colors"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#7c3aed] transition-colors"
             >
               预约技术交流
               <ArrowRight className="w-4 h-4" />

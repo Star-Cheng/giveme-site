@@ -13,7 +13,7 @@ export default function AboutPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-4">关于疾石</p>
+              <p className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase mb-4">关于疾石</p>
               <h1 className="text-3xl md:text-4xl font-bold text-[#0f172a] mb-6 leading-tight">
                 Ultra Rock 疾石科技
               </h1>
@@ -50,7 +50,7 @@ export default function AboutPage() {
               { title: "行动指南", en: "Action", body: "细分目标，高效执行，校核结果，反馈迭代。" },
             ].map((item, i) => (
               <div key={item.title} className={`animate-on-scroll delay-${(i + 1) * 100} p-6 rounded-2xl bg-white border border-[#f1f5f9]`}>
-                <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-2">{item.en}</p>
+                <p className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase mb-2">{item.en}</p>
                 <h3 className="text-lg font-bold text-[#0f172a] mb-3">{item.title}</h3>
                 <p className="text-sm text-[#64748b] font-light leading-relaxed">{item.body}</p>
               </div>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               { title: "科研赋能", desc: "开放实验室计划，与高校和研究所共建工艺窗口，推动飞秒技术普惠。" },
             ].map((item, i) => (
               <div key={item.title} className={`animate-on-scroll delay-${(i + 1) * 100} p-6 rounded-2xl bg-[#f8fafc] border border-[#f1f5f9] text-center`}>
-                <div className="w-12 h-12 rounded-full bg-[#eff6ff] flex items-center justify-center mx-auto mb-4">
+                <div className="w-12 h-12 rounded-full bg-[#f5f3ff] flex items-center justify-center mx-auto mb-4">
                   <span className="text-xl">{(i === 0 ? "◆" : i === 1 ? "◇" : "◎")}</span>
                 </div>
                 <h3 className="font-bold text-[#0f172a] mb-2">{item.title}</h3>
@@ -115,8 +115,8 @@ export default function AboutPage() {
                   i < timeline.length - 1 ? "border-l-2 border-[#e2e8f0]" : ""
                 }`}
               >
-                <div className="absolute left-0 top-0 w-3 h-3 -translate-x-[7px] rounded-full bg-[#2563eb]" />
-                <span className="text-sm font-bold text-[#2563eb]">{item.year}</span>
+                <div className="absolute left-0 top-0 w-3 h-3 -translate-x-[7px] rounded-full bg-[#7c3aed]" />
+                <span className="text-sm font-bold text-[#7c3aed]">{item.year}</span>
                 <h3 className="text-base font-bold text-[#0f172a] mt-2 mb-2">{item.title}</h3>
                 <p className="text-sm text-[#64748b] font-light leading-relaxed">{item.desc}</p>
               </div>

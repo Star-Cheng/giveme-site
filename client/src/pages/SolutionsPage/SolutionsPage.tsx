@@ -10,7 +10,7 @@ export default function SolutionsPage() {
       {/* HERO */}
       <section className="pb-16">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <p className="text-xs text-[#2563eb] font-medium tracking-wider uppercase mb-4">行业解决方案</p>
+          <p className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase mb-4">行业解决方案</p>
           <h1 className="text-4xl md:text-5xl font-bold text-[#0f172a] mb-6 leading-tight">
             用场景证明价值
           </h1>
@@ -30,7 +30,7 @@ export default function SolutionsPage() {
                 className={`animate-on-scroll delay-${(i + 1) * 100} rounded-2xl overflow-hidden bg-[#f8fafc] border border-[#f1f5f9] flex flex-col`}
               >
                 <div className="p-6 flex-1">
-                  <span className="text-xs text-[#2563eb] font-medium tracking-wider uppercase">{s.series}</span>
+                  <span className="text-xs text-[#7c3aed] font-medium tracking-wider uppercase">{s.series}</span>
                   <h3 className="text-xl font-bold text-[#0f172a] mt-2 mb-1">{s.title}</h3>
                   <p className="text-xs text-[#64748b] mb-4">{s.english}</p>
                   <p className="text-xs text-[#94a3b8] mb-6">{s.sector}</p>
@@ -52,7 +52,7 @@ export default function SolutionsPage() {
                 </div>
                 <div className="p-6 pt-0">
                   <div className="rounded-xl bg-white p-4 border border-[#f1f5f9]">
-                    <p className="text-xs font-semibold text-[#2563eb] mb-2">量化收益</p>
+                    <p className="text-xs font-semibold text-[#7c3aed] mb-2">量化收益</p>
                     <p className="text-xs text-[#0f172a] font-medium leading-relaxed">{s.metrics}</p>
                   </div>
                 </div>
@@ -80,7 +80,7 @@ export default function SolutionsPage() {
       <section className="py-16">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="max-w-3xl mx-auto bg-[#f8fafc] rounded-2xl p-8 md:p-10 border border-[#f1f5f9] flex flex-col md:flex-row gap-8 items-start">
-            <div className="w-12 h-12 rounded-full bg-[#eff6ff] flex items-center justify-center shrink-0">
+            <div className="w-12 h-12 rounded-full bg-[#f5f3ff] flex items-center justify-center shrink-0">
               <span className="text-xl">◇</span>
             </div>
             <div>
@@ -88,7 +88,7 @@ export default function SolutionsPage() {
               <p className="text-sm text-[#64748b] font-light leading-relaxed mb-6">
                 邀请高校、研究所与产业伙伴共建工艺窗口与数据规范。支持按材料与工艺定制行业方案——署名与知识产权条款事前书面约定。
               </p>
-              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#2563eb] transition-colors">
+              <Link to="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-[#0f172a] text-white text-sm font-medium rounded-full hover:bg-[#7c3aed] transition-colors">
                 申请合作入口 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
