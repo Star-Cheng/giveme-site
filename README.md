@@ -323,3 +323,93 @@ export default function DashboardPage() {
 | 内容自适应 | 无固定 `h-`（图表除外）；长文本 `break-words`；表格 `overflow-x-auto` |
 | 交互完整性 | 所有按钮/链接有实际处理器和可见反馈；无空响应、无假按钮 |
 | 无循环引用 | client ↔ server 不直接 import；通过 shared/ 共享类型 |
+
+---
+
+## 部署
+
+### 架构
+
+双端部署，同一套代码，两个域名：
+
+| 域名 | 目标用户 | 平台 | 触发方式 |
+|------|----------|------|----------|
+| `ultrarock.cn` | 国内 | 阿里云 ECS（Nginx + PM2） | 本地 `npm run deploy` |
+| `ultrarock.net` | 海外 | Cloudflare Pages（GitHub Actions） | `git push origin main` |
+
+```
+本地开发机                      远端
+  │                             ┌─ 阿里云 ECS
+  │  npm run deploy             │  Nginx (:443)
+  ├──────── rsync ─────────────►│  ├─ /         → 静态 SPA
+  │                             │  └─ /api/*    → Express :3000
+  │                             │
+  │  git push origin main       ┌─ GitHub Actions
+  └──────── trigger ───────────►│  └─ 构建 → 部署 Cloudflare Pages
+                                │
+```
+
+### 首次部署
+
+**前置条件**：Node.js ≥ 22 + pnpm，SSH 密钥已配置。
+
+**1. ECS 初始化（一次性）**
+
+```bash
+# 上传初始化脚本到 ECS 并执行
+ssh -i ~/.ssh/giveme-site.pem root@<ecs-ip> 'bash -s' < scripts/ecs-setup.sh
+```
+
+脚本会自动：安装 Nginx/Node.js/PM2/certbot → 克隆代码 → 配置 Nginx → 申请 SSL。
+
+**2. 配置 SMTP**
+
+```bash
+ssh root@<ecs-ip>
+vi /opt/ultrarock-api/.env   # 填入 QQ 邮箱授权码
+```
+
+`.env` 模板：
+
+```ini
+SMTP_HOST=smtp.qq.com
+SMTP_PORT=465
+SMTP_USER=你的QQ邮箱
+SMTP_PASS=QQ邮箱授权码
+CONTACT_RECEIVER_EMAIL=ur@ultrarock.net
+```
+
+**3. DNS**
+
+- `ultrarock.cn` → A 记录指向 ECS 公网 IP
+- `ultrarock.net` → CNAME 指向 Cloudflare Pages
+
+### 日常部署命令
+
+| 命令 | 用途 |
+|------|------|
+| `npm run deploy` | 双端完整部署（构建 + ECS + push GitHub） |
+| `npm run deploy:ecs` | 仅部署阿里云 ECS（不触发 .net） |
+| `npm run dev` | 本地开发服务器 |
+| `npm run build` | 仅构建（不部署） |
+
+### 脚本清单
+
+| 脚本 | 位置 | 用途 |
+|------|------|------|
+| `deploy.sh` | `scripts/` | 一键双端部署 |
+| `deploy-ecs.sh` | `scripts/` | 仅部署 ECS |
+| `ecs-setup.sh` | `scripts/` | ECS 首次初始化（在 ECS 上执行） |
+| `gh-pages-postbuild.cjs` | `scripts/` | GitHub Pages 后处理（404.html + CNAME） |
+| `build.sh` | `scripts/` | 飞书 APAAS 平台构建（非通用） |
+
+### 服务端架构
+
+ECS 上通过 PM2 运行 `server/standalone.ts`——它是 Express 的轻量入口，**去掉了 `@lark-apaas/express-core` 平台依赖**，仅保留：
+
+- `POST /api/contact-inquiries` — 商务咨询表单（SMTP 邮件）
+- `POST /api/resume-submissions` — 简历投递（SMTP + 附件）
+
+Nginx 负责：HTTPS 终结 + 静态文件 + `/api/*` 反向代理。
+
+> `server/standalone.ts` 仅用于 ECS 部署。原始 `server/index.ts` 保留给飞书 APAAS 平台使用，两者不冲突。

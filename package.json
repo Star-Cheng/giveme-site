@@ -21,7 +21,10 @@
     "lint": "concurrently npm:typecheck npm:lint:client npm:lint:server",
     "lint:client": "eslint client/src",
     "lint:server": "eslint server",
-    "gen:db-schema": "npx -y @lark-apaas/db-schema-sync@latest --output server/db/schema.ts"
+    "gen:db-schema": "npx -y @lark-apaas/db-schema-sync@latest --output server/db/schema.ts",
+    "deploy:ecs": "bash scripts/deploy-ecs.sh",
+    "deploy": "bash scripts/deploy.sh",
+    "ecs:setup": "echo '用法: ssh root@<ecs-ip> bash -s < scripts/ecs-setup.sh'"
   },
   "dependencies": {
     "@formkit/auto-animate": "^0.9.0",
