@@ -25,7 +25,9 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
 echo "=== 1. 构建前端（目标 API: https://ultrarock.cn） ==="
-VITE_CONTACT_API_BASE_URL="https://ultrarock.cn" npx vite build
+VITE_CONTACT_API_BASE_URL="https://ultrarock.cn" \
+VITE_ICP_BEIAN="${VITE_ICP_BEIAN:-粤ICP备2026062248号-1}" \
+npx vite build
 # SPA fallback
 cp dist/index.html dist/404.html
 

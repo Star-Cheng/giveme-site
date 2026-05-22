@@ -157,9 +157,33 @@ export function Layout({ children }: { children: ReactNode }) {
               </ul>
             </div>
           </div>
-          <div className="mt-14 pt-8 border-t border-[#e2e8f0] flex justify-between text-xs text-[#94a3b8]">
-            <span>{t("footer.copyright", { year: String(new Date().getFullYear()) })}</span>
-            <span>{t("footer.slogan")}</span>
+          <div className="mt-14 pt-8 border-t border-[#e2e8f0] text-xs text-[#94a3b8]">
+            <div className="flex flex-col sm:flex-row sm:justify-between gap-1">
+              <span>{t("footer.copyright", { year: String(new Date().getFullYear()) })}</span>
+              <span>{t("footer.slogan")}</span>
+            </div>
+            {!!(import.meta.env.VITE_ICP_BEIAN || "").trim() && (
+              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
+                <a
+                  href="https://beian.miit.gov.cn/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-[#0f172a] transition-colors"
+                >
+                  {t("footer.beian", { number: (import.meta.env.VITE_ICP_BEIAN || "").trim() })}
+                </a>
+                {(import.meta.env.VITE_PS_BEIAN || "").trim() && (
+                  <a
+                    href="https://www.beian.gov.cn/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#0f172a] transition-colors"
+                  >
+                    {(import.meta.env.VITE_PS_BEIAN || "").trim()}
+                  </a>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </footer>
