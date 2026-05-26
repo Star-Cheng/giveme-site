@@ -5,7 +5,7 @@ type ContactInquiryPayload = {
   name: string;
   email: string;
   company: string;
-  scene: string;
+  scene?: string;
   material?: string;
   precision?: string;
   cycle?: string;
@@ -45,7 +45,6 @@ function parsePayload(body: unknown): ContactInquiryPayload | null {
     !isNonEmptyString(candidate.name) ||
     !isNonEmptyString(candidate.email) ||
     !isNonEmptyString(candidate.company) ||
-    !isNonEmptyString(candidate.scene) ||
     !isNonEmptyString(candidate.message)
   ) {
     return null;
@@ -55,7 +54,7 @@ function parsePayload(body: unknown): ContactInquiryPayload | null {
     name: candidate.name.trim(),
     email: candidate.email.trim(),
     company: candidate.company.trim(),
-    scene: candidate.scene.trim(),
+    scene: candidate.scene?.trim(),
     material: candidate.material?.trim(),
     precision: candidate.precision?.trim(),
     cycle: candidate.cycle?.trim(),
@@ -76,22 +75,39 @@ contactRouter.post("/", async (req: Request, res: Response) => {
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
-  const senderEmail = process.env.CONTACT_SENDER_EMAIL || process.env.SMTP_USER;
+
+  // 发件人固定为 QQ 邮箱，收件方看到 "Ultra Rock 疾石科技 <1335929010@qq.com>"
+  const senderFrom = '"Ultra Rock 疾石科技" <1335929010@qq.com>';
+
+  // Message-ID 用 ultrarock.net 域名，降低垃圾评分
+  const messageId = `<${Date.now()}.contact@ultrarock.net>`;
 
   try {
     const transporter = getMailerTransport();
 
+    // 捕获 SMTP 连接/协议层错误（sendMail 之外的异步异常）
+    transporter.on("error", (err) => {
+      console.error("[咨询] SMTP 传输层错误:", err);
+    });
+
+    console.log("[咨询] 准备发送邮件 ->", receiverEmails, "| from:", senderFrom);
+
     await transporter.sendMail({
-      from: senderEmail,
+      from: senderFrom,
       to: receiverEmails,
       replyTo: payload.email,
       subject: `【商务咨询】${payload.company} - ${payload.name}`,
+      messageId,
+      headers: {
+        "X-Priority": "3",
+        "X-Mailer": "UltraRock Contact System",
+      },
       text: [
         "收到新的商务咨询表单：",
         `姓名：${payload.name}`,
         `邮箱：${payload.email}`,
         `公司/机构：${payload.company}`,
-        `应用场景：${payload.scene}`,
+        `应用场景：${payload.scene || "未填写"}`,
         `主要材料：${payload.material || "未填写"}`,
         `精度/质量指标：${payload.precision || "未填写"}`,
         `预算与期望周期：${payload.cycle || "未填写"}`,
@@ -105,7 +121,7 @@ contactRouter.post("/", async (req: Request, res: Response) => {
           <li><strong>姓名：</strong>${payload.name}</li>
           <li><strong>邮箱：</strong>${payload.email}</li>
           <li><strong>公司/机构：</strong>${payload.company}</li>
-          <li><strong>应用场景：</strong>${payload.scene}</li>
+          <li><strong>应用场景：</strong>${payload.scene || "未填写"}</li>
           <li><strong>主要材料：</strong>${payload.material || "未填写"}</li>
           <li><strong>精度/质量指标：</strong>${payload.precision || "未填写"}</li>
           <li><strong>预算与期望周期：</strong>${payload.cycle || "未填写"}</li>

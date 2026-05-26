@@ -8,7 +8,7 @@ export default function ContactPage() {
   const { t } = useLang();
   useScrollReveal();
   const apiBaseUrl = (import.meta.env.VITE_CONTACT_API_BASE_URL || "").trim();
-  const [formData, setFormData] = useState({ name: "", email: "", company: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", company: "", scene: "", message: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
@@ -32,7 +32,7 @@ export default function ContactPage() {
       const response = await fetch(submitTarget, { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify(payload) });
       if (!response.ok) throw new Error(t("contact.form.error"));
       setIsSubmitted(true);
-      setTimeout(() => { setIsSubmitted(false); setFormData({ name: "", email: "", company: "", message: "" }); }, 3000);
+      setTimeout(() => { setIsSubmitted(false); setFormData({ name: "", email: "", company: "", scene: "", message: "" }); }, 3000);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : t("contact.form.error"));
     } finally {
@@ -139,6 +139,17 @@ export default function ContactPage() {
                 <div>
                   <label className="block text-xs font-medium text-[#0f172a] mb-1.5">{t("contact.form.company")}</label>
                   <input name="company" value={formData.company} onChange={(e) => setFormData(p => ({ ...p, company: e.target.value }))} className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#185abd]" placeholder={t("contact.form.company.placeholder")} />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-[#0f172a] mb-1.5">{t("contact.form.scene")}</label>
+                  <select name="scene" value={formData.scene} onChange={(e) => setFormData(p => ({ ...p, scene: e.target.value }))} className="w-full px-3 py-2.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-sm focus:outline-none focus:border-[#185abd] text-[#0f172a]">
+                    <option value="">{t("contact.form.scene.placeholder")}</option>
+                    <option value="激光加工">{t("contact.form.scene.laser")}</option>
+                    <option value="增材制造">{t("contact.form.scene.additive")}</option>
+                    <option value="精密检测">{t("contact.form.scene.inspection")}</option>
+                    <option value="科研实验">{t("contact.form.scene.research")}</option>
+                    <option value="其他">{t("contact.form.scene.other")}</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-[#0f172a] mb-1.5">{t("contact.form.message")}</label>

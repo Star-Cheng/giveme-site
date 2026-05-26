@@ -75,15 +75,32 @@ resumeRouter.post("/", upload.single("resume"), async (req: Request, res: Respon
     .split(",")
     .map((item) => item.trim())
     .filter(Boolean);
-  const senderEmail = process.env.CONTACT_SENDER_EMAIL || process.env.SMTP_USER;
+
+  // 发件人固定为 QQ 邮箱，收件方看到 "Ultra Rock 疾石科技 <1335929010@qq.com>"
+  const senderFrom = '"Ultra Rock 疾石科技" <1335929010@qq.com>';
+
+  // Message-ID 用 ultrarock.net 域名，降低垃圾评分
+  const messageId = `<${Date.now()}.resume@ultrarock.net>`;
 
   try {
     const transporter = getMailerTransport();
 
+    // 捕获 SMTP 连接/协议层错误（sendMail 之外的异步异常）
+    transporter.on("error", (err) => {
+      console.error("[简历] SMTP 传输层错误:", err);
+    });
+
+    console.log("[简历] 准备发送邮件 ->", receiverEmails, "| from:", senderFrom);
+
     await transporter.sendMail({
-      from: senderEmail,
+      from: senderFrom,
       to: receiverEmails,
       replyTo: email,
+      messageId,
+      headers: {
+        "X-Priority": "3",
+        "X-Mailer": "UltraRock Careers System",
+      },
       subject: `【简历投递】${position} - ${name}`,
       text: [
         "收到新的简历投递：",
